@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Фундамент Ритмометода — авторский курс Е. Д. Лучезарновой</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF6EF; --paper-warm:#F2EBDD; --paper-edge:#E8DFCC;
+  --ink:#1B1A17; --ink-muted:#5C574E; --ink-soft:#8A8478;
+  --accent:#2D4A3E; --accent-deep:#1F3329; --accent-soft:#E4EDE6;
+  --ochre:#B8884A; --ochre-soft:#F2E5CC;
+  --clay:#A0533D; --clay-soft:#F0DCD3;
+  --font-display:'Fraunces','Times New Roman',serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --r-sm:4px; --r-md:8px; --r-lg:16px;
+  --shadow-sm:0 1px 2px rgba(27,26,23,.04);
+  --shadow-md:0 4px 16px rgba(27,26,23,.06);
+  --shadow-lg:0 12px 40px rgba(27,26,23,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);font-size:16px;line-height:1.6;
+  color:var(--ink);background:var(--paper);
+  -webkit-font-smoothing:antialiased;font-feature-settings:'ss01','cv11';
+  cursor:none;
+  position:relative;
+}
+/* Page grain — paper texture */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity:.04;mix-blend-mode:multiply;
+}
+
+/* Custom cursor */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transition:opacity .2s}
+.cursor-dot{width:6px;height:6px;background:var(--accent);transform:translate(-50%,-50%)}
+.cursor-ring{width:30px;height:30px;border:1px solid var(--accent);transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s,background .25s}
+.cursor-ring.hover{width:54px;height:54px;background:rgba(45,74,62,.08);border-color:var(--accent-deep)}
+@media (max-width:968px){.cursor-dot,.cursor-ring{display:none}body{cursor:auto}}
+
+/* Reading progress */
+.read-progress{position:fixed;top:65px;left:0;height:2px;background:var(--ochre);width:0;z-index:99;transition:width .1s linear}
+@media (max-width:968px){.read-progress{top:57px}}
+
+/* Nav */
+.nav{
+  position:fixed;top:0;left:0;right:0;
+  background:rgba(250,246,239,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--paper-edge);
+  padding:18px 48px;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.nav-logo{font-family:var(--font-display);font-size:18px;font-weight:500;letter-spacing:-.01em;display:flex;align-items:baseline;gap:10px}
+.nav-logo em{font-style:italic;color:var(--accent);font-weight:400}
+.nav-logo .pg{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);letter-spacing:.1em;text-transform:uppercase;font-weight:400;font-style:normal}
+.nav-links{display:flex;gap:28px;list-style:none;font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em}
+.nav-links a{color:var(--ink-muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--accent);color:var(--paper);border-radius:100px;font-size:13px;font-weight:500;text-decoration:none;transition:background .2s}
+.nav-cta:hover{background:var(--accent-deep)}
+@media (max-width:968px){.nav-links{display:none}.nav{padding:14px 22px}}
+
+main{position:relative;z-index:2}
+
+.container{max-width:1280px;margin:0 auto;padding:0 48px}
+@media (max-width:968px){.container{padding:0 22px}}
+
+/* Section base */
+.section{padding:128px 0;position:relative;border-bottom:1px solid var(--paper-edge)}
+.section:last-child{border-bottom:none}
+.section-num{
+  position:absolute;top:48px;right:48px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.section-num em{font-family:var(--font-display);font-style:italic;font-size:13px;color:var(--ochre);font-weight:400}
+.section-label{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:18px;display:flex;align-items:center;gap:14px}
+.section-label::before{content:'';width:24px;height:1px;background:var(--ochre)}
+.section-title{font-family:var(--font-display);font-size:64px;font-weight:400;letter-spacing:-.025em;line-height:1.02;color:var(--ink);margin-bottom:22px;font-variation-settings:'opsz' 144,'SOFT' 50;text-wrap:balance}
+.section-title em{font-style:italic;font-weight:300;color:var(--accent)}
+.section-intro{font-size:19px;line-height:1.55;color:var(--ink-muted);max-width:640px;margin-bottom:72px;text-wrap:pretty}
+@media (max-width:968px){.section{padding:80px 0}.section-title{font-size:42px}.section-num{top:24px;right:22px}}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* HERO */
+.hero{padding-top:140px;padding-bottom:96px;min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center;width:100%;position:relative}
+.hero-meta{font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);margin-bottom:32px;display:flex;gap:20px;flex-wrap:wrap;letter-spacing:.06em}
+.hero-meta span{display:flex;align-items:center;gap:9px}
+.hero-meta span::before{content:'';width:5px;height:5px;background:var(--ochre);border-radius:50%}
+.hero h1{
+  font-family:var(--font-display);font-size:96px;line-height:.94;
+  font-weight:400;letter-spacing:-.038em;color:var(--ink);
+  margin-bottom:36px;font-variation-settings:'opsz' 144,'SOFT' 30;
+  text-wrap:balance;
+}
+.hero h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+.hero-sub{font-size:21px;line-height:1.5;color:var(--ink-muted);max-width:540px;margin-bottom:44px;text-wrap:pretty}
+.hero-buttons{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-bottom:36px}
+.hero-anchors{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;color:var(--ink-soft);max-width:540px;line-height:1.65}
+.hero-image{
+  position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;
+  background:var(--paper-warm);border:1px solid var(--paper-edge);
+}
+.hero-image .scene{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 25% 22%, rgba(255,236,189,.55) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 75%, rgba(45,74,62,.18) 0%, transparent 55%),
+    linear-gradient(160deg, #F2EBDD 0%, #E8DFCC 60%, #DCD0B6 100%);
+  animation:kenburns 22s ease-in-out infinite alternate;
+}
+@keyframes kenburns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.06) translate(-1%,-1%)}}
+.hero-image-tag{
+  position:absolute;left:24px;bottom:24px;
+  padding:10px 16px;background:rgba(250,246,239,.92);backdrop-filter:blur(6px);
+  border-radius:100px;font-family:var(--font-mono);font-size:10.5px;
+  text-transform:uppercase;letter-spacing:.14em;color:var(--ink-muted);
+  border:1px solid var(--paper-edge);
+}
+/* Still-life SVG inside hero */
+.hero-svg{position:absolute;inset:0;width:100%;height:100%}
+.hero-pageref{
+  position:absolute;top:24px;right:24px;
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.hero-pageref em{font-family:var(--font-display);font-style:italic;color:var(--ochre);font-size:12px}
+
+/* Scroll cue */
+.scroll-cue{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-soft);
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  animation:cuePulse 3s ease-in-out infinite;
+}
+.scroll-cue .line{width:1px;height:36px;background:linear-gradient(to bottom,var(--ochre),transparent)}
+@keyframes cuePulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+@media (max-width:968px){
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .hero h1{font-size:54px}
+  .hero{padding-top:120px}
+}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:17px 30px;font-family:var(--font-body);font-size:15px;font-weight:500;border:none;border-radius:100px;cursor:none;transition:all .25s ease;text-decoration:none}
+.btn-primary{background:var(--accent);color:var(--paper)}
+.btn-primary:hover{background:var(--accent-deep);transform:translateY(-2px);box-shadow:0 10px 24px rgba(31,51,41,.22)}
+.btn-secondary{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn-secondary:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost{background:transparent;color:var(--accent);padding:17px 0}
+.btn-ghost:hover{color:var(--accent-deep)}
+.btn-arrow{transition:transform .25s ease;display:inline-block}
+.btn:hover .btn-arrow{transform:translateX(4px)}
+
+/* SECTION 2: rhythm metaphor */
+.rhythm-wrap{margin:48px 0 0;padding:64px 0;background:var(--paper-warm);border-radius:var(--r-lg);border:1px solid var(--paper-edge)}
+.rhythm-svg{width:100%;height:auto;display:block}
+.rhythm-legend{display:grid;grid-template-columns:1fr 1fr;gap:32px;padding:0 64px;margin-top:24px}
+.rhythm-legend-item .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.rhythm-legend-item h4{font-family:var(--font-display);font-size:22px;font-weight:500;line-height:1.2;letter-spacing:-.01em}
+.rhythm-text-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:64px}
+.rhythm-text-cols p{font-size:15.5px;line-height:1.65;color:var(--ink-muted);text-wrap:pretty}
+.rhythm-text-cols p strong{color:var(--ink);font-weight:500;font-family:var(--font-display);font-size:17px;font-style:italic}
+@media (max-width:968px){.rhythm-legend{grid-template-columns:1fr;padding:0 24px}.rhythm-text-cols{grid-template-columns:1fr;gap:24px}}
+
+/* Tooltip for events */
+.evt-tip{
+  position:absolute;background:var(--ink);color:var(--paper);
+  padding:8px 14px;border-radius:6px;font-size:12px;font-family:var(--font-mono);
+  letter-spacing:.04em;white-space:nowrap;pointer-events:none;opacity:0;
+  transform:translate(-50%,-130%);transition:opacity .18s;z-index:10;
+}
+
+/* SECTION 3: three levels */
+.levels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.level-card{
+  background:var(--paper-warm);border:1px solid var(--paper-edge);
+  border-radius:var(--r-lg);padding:48px 40px 40px;position:relative;
+  transition:transform .35s ease,box-shadow .35s ease;
+  cursor:none;
+}
+.level-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.level-card:hover .level-illu{animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.7}50%{opacity:1}}
+.level-num{font-family:var(--font-display);font-size:54px;font-style:italic;font-weight:300;color:var(--ochre);line-height:1;margin-bottom:18px;letter-spacing:-.02em}
+.level-card h3{font-family:var(--font-display);font-size:30px;font-weight:500;line-height:1.1;letter-spacing:-.015em;margin-bottom:16px}
+.level-card p{font-size:15px;line-height:1.6;color:var(--ink-muted);margin-bottom:32px;text-wrap:pretty}
+.level-illu{width:100%;height:120px;display:flex;align-items:center;justify-content:center}
+.level-illu svg{width:100%;height:100%;max-width:160px}
+.level-illu path,.level-illu circle,.level-illu line{stroke:var(--accent);stroke-width:1.5;fill:none}
+@media (max-width:968px){.levels-grid{grid-template-columns:1fr}}
+
+/* SECTION 4: stages */
+.stage{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  background:var(--paper-warm);border:1px solid var(--paper-edge);
+  border-radius:var(--r-lg);overflow:hidden;margin-bottom:32px;
+  min-height:560px;
+}
+.stage.flip{grid-template-columns:1fr 1fr}
+.stage-image{position:relative;background:var(--paper-edge);overflow:hidden}
+.stage-image .bg{position:absolute;inset:0}
+.stage-image .bg.b1{background:radial-gradient(ellipse at 60% 30%,rgba(255,228,170,.5) 0%,transparent 50%),linear-gradient(155deg,#E8DFCC 0%,#C9B898 100%)}
+.stage-image .bg.b2{background:radial-gradient(ellipse at 30% 70%,rgba(160,83,61,.25) 0%,transparent 50%),linear-gradient(165deg,#3F4F44 0%,#1F3329 100%)}
+.stage-image-tag{position:absolute;left:20px;bottom:20px;padding:8px 14px;background:rgba(250,246,239,.92);backdrop-filter:blur(6px);border-radius:100px;font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-muted);border:1px solid var(--paper-edge)}
+.stage-image-tag.dark{background:rgba(31,51,41,.85);color:#E8DFCC;border-color:rgba(232,223,204,.2)}
+.stage-body{padding:64px 56px;display:flex;flex-direction:column;justify-content:center}
+.stage-step{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.stage-step .dot{width:6px;height:6px;background:var(--accent);border-radius:50%}
+.stage.fr2 .stage-step{color:var(--clay)}
+.stage.fr2 .stage-step .dot{background:var(--clay)}
+.stage h3{font-family:var(--font-display);font-size:46px;line-height:1.05;font-weight:400;letter-spacing:-.025em;margin-bottom:18px;text-wrap:balance}
+.stage h3 em{font-style:italic;color:var(--accent)}
+.stage.fr2 h3 em{color:var(--clay)}
+.stage-desc{color:var(--ink-muted);font-size:16px;line-height:1.55;margin-bottom:24px;text-wrap:pretty}
+.stage-list{list-style:none;margin-bottom:28px}
+.stage-list li{position:relative;padding:9px 0 9px 26px;font-size:14.5px;line-height:1.5;color:var(--ink);border-bottom:1px dashed var(--paper-edge)}
+.stage-list li:last-child{border-bottom:none}
+.stage-list li::before{content:'';position:absolute;left:0;top:18px;width:14px;height:1px;background:var(--ochre)}
+.stage-metrics{display:flex;gap:32px;padding:20px 0 28px;border-top:1px solid var(--paper-edge);border-bottom:1px solid var(--paper-edge);margin-bottom:28px}
+.stage-metric .v{font-family:var(--font-display);font-size:34px;font-weight:400;color:var(--accent);letter-spacing:-.02em;line-height:1}
+.stage.fr2 .stage-metric .v{color:var(--clay)}
+.stage-metric .l{font-size:12px;color:var(--ink-soft);margin-top:6px;line-height:1.3}
+.stage-buttons{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.stage-divider{
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  padding:24px 0;color:var(--ink-soft);font-family:var(--font-mono);
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+}
+.stage-divider::before,.stage-divider::after{content:'';flex:1;height:1px;background:var(--paper-edge);max-width:240px}
+.stage-divider .knot{width:8px;height:8px;background:var(--ochre);border-radius:50%;flex-shrink:0;box-shadow:0 0 0 6px rgba(184,136,74,.15)}
+
+@media (max-width:968px){
+  .stage,.stage.flip{grid-template-columns:1fr}
+  .stage-image{aspect-ratio:4/3}
+  .stage-body{padding:40px 28px}
+  .stage h3{font-size:34px}
+  .stage.flip .stage-image{order:-1}
+}
+
+/* SECTION 5: who fits */
+.who-block{
+  display:grid;grid-template-columns:.4fr 1fr;gap:48px;
+  padding:56px 0;border-bottom:1px dashed var(--paper-edge);align-items:start;
+}
+.who-block:first-child{padding-top:0;border-top:none}
+.who-block:last-child{padding-bottom:0;border-bottom:none}
+.who-num{font-family:var(--font-display);font-size:84px;font-weight:300;font-style:italic;line-height:.95;color:var(--ink);letter-spacing:-.025em;font-variation-settings:'opsz' 144,'SOFT' 70}
+.who-num .ord{font-family:var(--font-mono);font-style:normal;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ochre);display:block;margin-bottom:14px;font-weight:400}
+.who-quote{font-family:var(--font-display);font-style:italic;font-size:32px;line-height:1.15;color:var(--accent);font-weight:400;margin-bottom:18px;letter-spacing:-.012em;text-wrap:balance}
+.who-quote::before{content:'«';margin-right:4px;color:var(--ochre)}
+.who-quote::after{content:'»';margin-left:4px;color:var(--ochre)}
+.who-text{font-size:16px;line-height:1.6;color:var(--ink-muted);margin-bottom:22px;max-width:620px;text-wrap:pretty}
+.who-stat{
+  display:inline-flex;align-items:center;gap:14px;padding:10px 16px;
+  background:var(--accent-soft);border-radius:100px;
+  font-family:var(--font-mono);font-size:11px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--accent);
+}
+.who-stat strong{font-family:var(--font-display);font-style:italic;font-size:16px;letter-spacing:0;text-transform:none;font-weight:500}
+@media (max-width:968px){.who-block{grid-template-columns:1fr;gap:24px;padding:40px 0}.who-num{font-size:64px}.who-quote{font-size:24px}}
+
+/* SECTION 6: stats + quotes */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--paper-edge);border:1px solid var(--paper-edge);border-radius:var(--r-lg);overflow:hidden;margin-bottom:80px}
+.stat-cell{background:var(--paper);padding:48px 36px;display:flex;flex-direction:column;justify-content:flex-end;min-height:240px;position:relative}
+.stat-cell .num{font-family:var(--font-display);font-size:84px;font-weight:400;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:14px;font-variation-settings:'opsz' 144,'SOFT' 30}
+.stat-cell .lbl{font-size:14px;line-height:1.5;color:var(--ink-muted);text-wrap:pretty}
+.stat-cell .corner{position:absolute;top:20px;right:20px;font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+@media (max-width:968px){.stats-grid{grid-template-columns:1fr 1fr}.stat-cell .num{font-size:60px}.stat-cell{padding:32px 24px;min-height:180px}}
+
+.quotes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.qcard{
+  position:relative;padding:44px 44px 36px;border-radius:var(--r-lg);
+  background:var(--ochre-soft);
+}
+.qcard.long{grid-column:span 2}
+.qcard.green{background:var(--accent-soft)}
+.qcard .qmark{
+  position:absolute;top:8px;left:24px;font-family:var(--font-display);
+  font-size:84px;line-height:1;color:var(--ochre);font-style:italic;font-weight:400;
+}
+.qcard.green .qmark{color:var(--accent)}
+.qcard p{font-family:var(--font-display);font-size:22px;line-height:1.4;font-style:italic;color:var(--ink);margin:18px 0 22px;text-wrap:pretty;font-variation-settings:'opsz' 72}
+.qcard.long p{font-size:25px}
+.qcard .who{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.qcard .who em{font-family:var(--font-display);font-style:italic;text-transform:none;letter-spacing:0;color:var(--ink-muted);font-size:13px}
+@media (max-width:968px){.quotes-grid{grid-template-columns:1fr}.qcard.long{grid-column:auto}.qcard p{font-size:18px}.qcard.long p{font-size:20px}}
+
+/* SECTION 7: author */
+.author-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;margin-bottom:64px}
+.author-photo{
+  aspect-ratio:3/4;border-radius:var(--r-lg);overflow:hidden;position:relative;
+  background:linear-gradient(165deg,#3F4F44 0%,#1F3329 80%);
+  border:1px solid var(--paper-edge);
+}
+.author-photo .grain{
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle at 30% 25%,rgba(255,228,170,.18) 0%,transparent 45%),radial-gradient(circle at 70% 80%,rgba(184,136,74,.15) 0%,transparent 50%);
+  mix-blend-mode:screen;
+}
+.author-photo .caption{position:absolute;left:24px;bottom:24px;color:#E8DFCC;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+.author-photo .caption em{font-family:var(--font-display);font-style:italic;font-size:13px;text-transform:none;letter-spacing:0;display:block;color:var(--paper);margin-top:6px}
+.author-text h3{font-family:var(--font-display);font-size:36px;font-weight:400;line-height:1.1;letter-spacing:-.02em;margin-bottom:24px;text-wrap:balance}
+.author-text h3 em{font-style:italic;color:var(--accent)}
+.author-text p{font-size:16px;line-height:1.65;color:var(--ink-muted);margin-bottom:18px;text-wrap:pretty}
+.author-feats{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
+.author-feat{padding:24px;background:var(--paper);border:1px solid var(--paper-edge);border-radius:var(--r-md)}
+.author-feat h4{font-family:var(--font-display);font-size:19px;font-weight:500;letter-spacing:-.01em;margin-bottom:8px;color:var(--ink)}
+.author-feat p{font-size:13.5px;line-height:1.5;color:var(--ink-muted);margin:0}
+.timeline{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+  padding:32px 0 0;border-top:1px solid var(--paper-edge);margin-top:64px;
+  position:relative;
+}
+.timeline::before{content:'';position:absolute;top:32px;left:8%;right:8%;height:1px;background:var(--paper-edge);z-index:0}
+.tline{position:relative;padding-top:24px}
+.tline::before{content:'';position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--ochre);border-radius:50%;border:2px solid var(--paper-warm)}
+.tline .yr{font-family:var(--font-display);font-size:26px;font-weight:500;color:var(--accent);letter-spacing:-.01em;margin-bottom:6px}
+.tline .desc{font-size:13px;line-height:1.45;color:var(--ink-muted)}
+@media (max-width:968px){.author-grid{grid-template-columns:1fr;gap:40px}.author-feats{grid-template-columns:1fr}.timeline{grid-template-columns:1fr 1fr}}
+
+/* SECTION 8: free materials */
+.free-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.fcard{
+  background:var(--ochre-soft);border:1px solid #E8D6B5;
+  border-radius:var(--r-lg);padding:36px;display:flex;flex-direction:column;
+  transition:transform .3s ease,box-shadow .3s ease;cursor:none;
+}
+.fcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.fcard-vis{aspect-ratio:1.4/1;border-radius:var(--r-md);margin-bottom:28px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+/* Book mock */
+.book-mock{
+  width:140px;height:200px;background:linear-gradient(135deg,#2D4A3E 0%,#1F3329 100%);
+  border-radius:2px 6px 6px 2px;position:relative;
+  box-shadow:8px 12px 24px rgba(31,51,41,.25),inset -3px 0 0 rgba(0,0,0,.18);
+  transform:rotate(-4deg);
+}
+.book-mock::before{content:'';position:absolute;inset:14px 18px;border:1px solid rgba(184,136,74,.55);border-radius:2px}
+.book-mock::after{content:'Память\A будущего';white-space:pre;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-size:14px;font-style:italic;color:var(--ochre);text-align:center;letter-spacing:.02em;line-height:1.25}
+/* Audio mock */
+.audio-mock{display:flex;flex-direction:column;align-items:center;gap:14px}
+.audio-mock .play{width:64px;height:64px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.audio-mock .play svg{width:22px;height:22px;fill:var(--paper);margin-left:3px}
+.audio-mock .wave{width:160px;height:32px;display:flex;align-items:center;gap:3px;justify-content:center}
+.audio-mock .wave span{width:3px;background:var(--accent);border-radius:2px;opacity:.7}
+.audio-mock .dur{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase}
+/* Telegram mock */
+.tg-mock{
+  width:80%;height:80%;background:var(--paper);border-radius:8px;
+  padding:14px;font-family:var(--font-body);box-shadow:var(--shadow-md);
+  border:1px solid var(--paper-edge);position:relative;
+  display:flex;flex-direction:column;gap:8px;
+}
+.tg-mock .head{display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px solid var(--paper-edge)}
+.tg-mock .av{width:28px;height:28px;background:var(--accent);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:var(--font-display);font-style:italic;font-size:13px}
+.tg-mock .nm{font-size:11px;font-weight:600;color:var(--ink)}
+.tg-mock .sub{font-size:9px;color:var(--ink-soft)}
+.tg-mock .msg{padding:8px;background:var(--accent-soft);border-radius:6px;font-size:10.5px;color:var(--ink);line-height:1.4}
+.tg-mock .msg em{font-family:var(--font-display);font-style:italic;color:var(--accent)}
+
+.fcard-tag{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ochre);margin-bottom:10px}
+.fcard h4{font-family:var(--font-display);font-size:24px;font-weight:500;line-height:1.15;letter-spacing:-.012em;margin-bottom:10px}
+.fcard p{font-size:14px;line-height:1.55;color:var(--ink-muted);margin-bottom:24px;flex:1;text-wrap:pretty}
+.fcard a{font-family:var(--font-body);font-size:14px;font-weight:500;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:8px;padding-top:18px;border-top:1px solid #E8D6B5;align-self:flex-start}
+.fcard a:hover{color:var(--accent-deep)}
+@media (max-width:968px){.free-grid{grid-template-columns:1fr}}
+
+/* SECTION 9: process timeline */
+.process{position:relative;max-width:920px;margin:0 auto}
+.process::before{content:'';position:absolute;left:64px;top:32px;bottom:32px;width:1px;background:var(--paper-edge);background-image:linear-gradient(to bottom,var(--paper-edge) 50%,transparent 50%);background-size:1px 8px;background-repeat:repeat-y;z-index:0}
+.process-line-active{position:absolute;left:64px;top:32px;width:1px;background:var(--accent);height:0;transition:height 1.4s ease;z-index:1}
+.pstep{display:grid;grid-template-columns:130px 1fr;gap:48px;align-items:start;padding:24px 0 40px;position:relative;z-index:2}
+.pstep-num{font-family:var(--font-display);font-size:54px;font-weight:300;color:var(--ink-soft);letter-spacing:-.02em;line-height:1;transition:color .4s,transform .4s;position:relative}
+.pstep-num::before{content:'';position:absolute;left:50px;top:18px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--paper-edge);transition:all .4s}
+.pstep.lit .pstep-num{color:var(--accent)}
+.pstep.lit .pstep-num::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 6px rgba(45,74,62,.12)}
+.pstep-body h4{font-family:var(--font-display);font-size:28px;font-weight:500;letter-spacing:-.015em;line-height:1.15;margin-bottom:10px;text-wrap:balance}
+.pstep-body p{font-size:15.5px;line-height:1.6;color:var(--ink-muted);margin-bottom:14px;text-wrap:pretty;max-width:540px}
+.pstep-meta{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ochre);display:inline-flex;align-items:center;gap:8px}
+.pstep-meta::before{content:'';width:14px;height:1px;background:var(--ochre)}
+@media (max-width:968px){.pstep{grid-template-columns:64px 1fr;gap:24px}.pstep-num{font-size:36px}.pstep-num::before{left:24px;top:12px;width:10px;height:10px}.process::before,.process-line-active{left:30px}.pstep-body h4{font-size:22px}}
+
+/* SECTION 10: FAQ */
+.faq-list{max-width:880px;margin:0 auto}
+.faq{border-bottom:1px solid var(--paper-edge);padding:8px 0}
+.faq summary{
+  list-style:none;cursor:none;padding:24px 8px 24px 0;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:32px;
+  font-family:var(--font-display);font-size:24px;font-weight:500;
+  letter-spacing:-.012em;color:var(--ink);line-height:1.25;
+  transition:color .25s;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq[open] summary{color:var(--accent)}
+.faq summary:hover{color:var(--accent)}
+.faq .plus{flex-shrink:0;width:28px;height:28px;position:relative;margin-top:6px}
+.faq .plus::before,.faq .plus::after{content:'';position:absolute;top:50%;left:50%;background:var(--accent);transition:transform .3s ease}
+.faq .plus::before{width:16px;height:1.5px;transform:translate(-50%,-50%)}
+.faq .plus::after{width:1.5px;height:16px;transform:translate(-50%,-50%)}
+.faq[open] .plus::after{transform:translate(-50%,-50%) rotate(90deg)}
+.faq-answer{
+  overflow:hidden;max-height:0;transition:max-height .35s ease;
+}
+.faq[open] .faq-answer{max-height:600px}
+.faq-answer p{padding:0 80px 24px 0;font-size:16px;line-height:1.65;color:var(--ink-muted);text-wrap:pretty}
+@media (max-width:968px){.faq summary{font-size:18px;gap:16px}.faq-answer p{padding-right:32px;font-size:15px}}
+
+/* SECTION 11: final CTA */
+.final{background:var(--accent-deep);color:var(--paper);padding:160px 0;text-align:center;border-bottom:none;position:relative;overflow:hidden}
+.final::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(184,136,74,.12) 0%,transparent 60%)}
+.final-num{position:absolute;top:48px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(232,223,204,.6)}
+.final-num em{font-family:var(--font-display);font-style:italic;color:var(--ochre);font-size:13px}
+.final h2{font-family:var(--font-display);font-size:64px;font-weight:300;line-height:1.05;letter-spacing:-.025em;margin-bottom:36px;max-width:920px;margin-left:auto;margin-right:auto;text-wrap:balance;position:relative;font-variation-settings:'opsz' 144,'SOFT' 50}
+.final h2 em{font-style:italic;color:#D4B584;font-weight:300}
+.final p.lead{font-size:19px;line-height:1.55;color:rgba(232,223,204,.78);margin-bottom:48px;max-width:560px;margin-left:auto;margin-right:auto;position:relative}
+.final-buttons{display:inline-flex;gap:18px;flex-wrap:wrap;justify-content:center;position:relative}
+.final .btn-primary{background:var(--ochre);color:var(--accent-deep)}
+.final .btn-primary:hover{background:#D4A05A;transform:translateY(-2px);box-shadow:0 10px 24px rgba(184,136,74,.3)}
+.final .btn-secondary{background:transparent;color:#E8DFCC;border-color:rgba(232,223,204,.4)}
+.final .btn-secondary:hover{background:#E8DFCC;color:var(--accent-deep)}
+@media (max-width:968px){.final{padding:96px 0}.final h2{font-size:38px}}
+
+/* Footer */
+.footer{background:#161513;color:rgba(232,223,204,.7);padding:80px 0 40px;border-top:1px solid #2A2724}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px}
+.footer-logo{font-family:var(--font-display);font-size:32px;font-weight:400;color:var(--paper);margin-bottom:14px;letter-spacing:-.02em}
+.footer-logo em{font-style:italic;color:#D4B584;font-weight:300}
+.footer-tag{font-size:14px;line-height:1.6;color:rgba(232,223,204,.55);max-width:340px;text-wrap:pretty}
+.footer-col h5{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:rgba(232,223,204,.4);margin-bottom:20px;font-weight:500}
+.footer-col ul{list-style:none}
+.footer-col li{padding:6px 0}
+.footer-col a{color:rgba(232,223,204,.75);text-decoration:none;font-size:14px;transition:color .2s}
+.footer-col a:hover{color:#D4B584}
+.footer-bottom{padding-top:32px;border-top:1px solid #2A2724;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:12px;color:rgba(232,223,204,.4)}
+.footer-bottom em{font-family:var(--font-display);font-style:italic;color:#B8884A;font-size:13px}
+@media (max-width:968px){.footer-grid{grid-template-columns:1fr 1fr;gap:32px}}
+
+/* Bookmark ribbon */
+.bookmark{
+  position:fixed;top:65px;right:48px;width:18px;z-index:40;
+  pointer-events:none;
+}
+.bookmark::before{
+  content:'';display:block;width:18px;height:84px;
+  background:linear-gradient(180deg,#A0533D 0%,#8A4632 100%);
+  clip-path:polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+  box-shadow:2px 4px 8px rgba(0,0,0,.08);
+}
+@media (max-width:968px){.bookmark{display:none}}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Reading progress -->
+<div class="read-progress" id="readProg"></div>
+
+<!-- Bookmark ribbon -->
+<div class="bookmark" aria-hidden="true"></div>
+
+<!-- Tooltip -->
+<div class="evt-tip" id="evtTip"></div>
+
+<!-- ====== NAV ====== -->
+<nav class="nav">
+  <div class="nav-logo">Ритмо<em>метод</em><span class="pg">7Р0 · School</span></div>
+  <ul class="nav-links">
+    <li><a href="#method">Метод</a></li>
+    <li><a href="#stages">Ступени</a></li>
+    <li><a href="#voices">Выпускники</a></li>
+    <li><a href="#author">Автор</a></li>
+    <li><a href="#free">Материалы</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a class="nav-cta" href="#stages">Записаться <span class="btn-arrow">→</span></a>
+</nav>
+
+<main>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-meta reveal">
+          <span>Школа Ритмометода</span>
+          <span>333 выпускника</span>
+          <span>с 1998 года</span>
+        </div>
+        <h1 class="reveal">
+          Практика для тех,<br>
+          кто хочет жить<br>
+          в <em>ритме своего</em><br>
+          <em>времени</em>
+        </h1>
+        <p class="hero-sub reveal">
+          Авторская методика Евдокии Дмитриевны Лучезарновой. Две ступени обучения для тех, кто различает своё время — и хочет работать с собственными ритмами осознанно.
+        </p>
+        <div class="hero-buttons reveal">
+          <a class="btn btn-primary" href="#stages">Узнать о ступенях <span class="btn-arrow">→</span></a>
+          <a class="btn btn-ghost" href="#free">Бесплатные материалы</a>
+        </div>
+        <p class="hero-anchors reveal">
+          Доступны два уровня: для собственной жизни и для&nbsp;профессии&nbsp;ритмолога-консультанта.
+        </p>
+      </div>
+      <div class="hero-image reveal">
+        <div class="scene"></div>
+        <!-- Still life: notebook, pen, cup -->
+        <svg class="hero-svg" viewBox="0 0 480 600" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="paperG" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FAF6EF"/>
+              <stop offset="100%" stop-color="#E8DFCC"/>
+            </linearGradient>
+            <linearGradient id="cupG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3F4F44"/>
+              <stop offset="100%" stop-color="#1F3329"/>
+            </linearGradient>
+          </defs>
+          <!-- Window light wash on left -->
+          <rect x="0" y="0" width="200" height="600" fill="rgba(255,236,189,0.18)"/>
+          <!-- Linen surface -->
+          <rect x="0" y="380" width="480" height="220" fill="#D9CDB0" opacity=".55"/>
+          <!-- Notebook -->
+          <g transform="translate(100,250) rotate(-6)">
+            <rect x="0" y="0" width="280" height="200" fill="url(#paperG)" stroke="#C9B898" stroke-width="1"/>
+            <rect x="0" y="0" width="14" height="200" fill="#B8884A" opacity=".6"/>
+            <!-- Lines (handwriting) -->
+            <line x1="40" y1="40" x2="240" y2="40" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <line x1="40" y1="62" x2="220" y2="62" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <line x1="40" y1="84" x2="250" y2="84" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <line x1="40" y1="106" x2="200" y2="106" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <line x1="40" y1="128" x2="240" y2="128" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <line x1="40" y1="150" x2="180" y2="150" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <!-- Margin doodle -->
+            <circle cx="22" cy="60" r="3" fill="#A0533D" opacity=".5"/>
+          </g>
+          <!-- Pen -->
+          <g transform="translate(280,330) rotate(35)">
+            <rect x="0" y="0" width="120" height="6" rx="3" fill="#2D4A3E"/>
+            <rect x="110" y="-1" width="14" height="8" fill="#1F3329"/>
+            <polygon points="124,3 136,1 136,5" fill="#B8884A"/>
+          </g>
+          <!-- Cup -->
+          <g transform="translate(60,420)">
+            <ellipse cx="50" cy="14" rx="40" ry="10" fill="#1F3329"/>
+            <path d="M 10,14 L 14,90 Q 14,108 50,108 Q 86,108 86,90 L 90,14" fill="url(#cupG)" stroke="#161513" stroke-width=".5"/>
+            <ellipse cx="50" cy="14" rx="38" ry="8" fill="#7A4A2E" opacity=".7"/>
+            <ellipse cx="50" cy="12" rx="28" ry="4" fill="#A0533D" opacity=".5"/>
+            <!-- Steam -->
+            <path d="M 35 -10 Q 30 -28 38 -42 Q 44 -56 36 -70" stroke="#FAF6EF" stroke-width="1.5" fill="none" opacity=".55"/>
+            <path d="M 55 -8 Q 62 -24 56 -38 Q 50 -52 60 -68" stroke="#FAF6EF" stroke-width="1.5" fill="none" opacity=".4"/>
+          </g>
+          <!-- Window frame hint -->
+          <rect x="20" y="40" width="3" height="280" fill="#5C574E" opacity=".25"/>
+          <rect x="20" y="40" width="120" height="3" fill="#5C574E" opacity=".25"/>
+        </svg>
+        <div class="hero-pageref"><em>p.</em>&nbsp;&nbsp;001</div>
+        <div class="hero-image-tag">Тетрадь · стол · окно</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">
+    <span>Прокрутите, чтобы продолжить</span>
+    <span class="line"></span>
+  </div>
+</section>
+
+<!-- ====== SECTION 2: METHOD METAPHOR ====== -->
+<section class="section" id="method" style="background:var(--paper)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;002 — 003</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">02 — Метафора времени</div>
+      <h2 class="section-title">Что такое<br><em>ритм</em></h2>
+      <p class="section-intro">
+        Прежде чем рассказать про метод — попробуйте увидеть, что значит «жить в своём ритме». Это не философия. Это два разных способа смотреть на собственную жизнь.
+      </p>
+    </div>
+
+    <div class="rhythm-wrap reveal">
+      <svg class="rhythm-svg" viewBox="0 0 1200 380" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="fadeR" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#A0533D" stop-opacity="0"/>
+            <stop offset="20%" stop-color="#A0533D" stop-opacity="1"/>
+            <stop offset="80%" stop-color="#A0533D" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#A0533D" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- Top: chaotic line -->
+        <text x="64" y="58" font-family="JetBrains Mono" font-size="11" fill="#8A8478" letter-spacing="2" text-transform="uppercase">I — ЖИЗНЬ КАК НАБОР СЛУЧАЙНОСТЕЙ</text>
+        <line x1="64" y1="120" x2="1136" y2="120" stroke="#C9B898" stroke-width="1" stroke-dasharray="3 4"/>
+        <g class="chaos-events" id="chaosEvents">
+          <!-- Random scattered events -->
+          <circle cx="120" cy="120" r="6" fill="#5C574E" data-label="Школа"/>
+          <circle cx="195" cy="120" r="9" fill="#A0533D" data-label="Развод родителей"/>
+          <circle cx="245" cy="120" r="4" fill="#5C574E" data-label="Первая работа"/>
+          <circle cx="340" cy="120" r="11" fill="#A0533D" data-label="Болезнь"/>
+          <circle cx="395" cy="120" r="5" fill="#5C574E" data-label="Переезд"/>
+          <circle cx="478" cy="120" r="7" fill="#5C574E" data-label="Брак"/>
+          <circle cx="565" cy="120" r="10" fill="#A0533D" data-label="Потеря работы"/>
+          <circle cx="620" cy="120" r="5" fill="#5C574E" data-label="Новый круг"/>
+          <circle cx="708" cy="120" r="8" fill="#A0533D" data-label="Развод"/>
+          <circle cx="780" cy="120" r="6" fill="#5C574E" data-label="Смена профессии"/>
+          <circle cx="845" cy="120" r="11" fill="#A0533D" data-label="Кризис"/>
+          <circle cx="935" cy="120" r="5" fill="#5C574E" data-label="Новая встреча"/>
+          <circle cx="1010" cy="120" r="7" fill="#5C574E" data-label="Терапия"/>
+          <circle cx="1090" cy="120" r="9" fill="#A0533D" data-label="Болезнь близкого"/>
+        </g>
+
+        <!-- Middle: divider -->
+        <text x="600" y="200" font-family="Fraunces" font-size="14" font-style="italic" fill="#8A8478" text-anchor="middle">— или —</text>
+
+        <!-- Bottom: rhythmic sine wave -->
+        <text x="64" y="248" font-family="JetBrains Mono" font-size="11" fill="#8A8478" letter-spacing="2" text-transform="uppercase">II — ЖИЗНЬ КАК РИТМ</text>
+        <path id="sinePath"
+          d="M 64 310 Q 144 250 224 310 T 384 310 T 544 310 T 704 310 T 864 310 T 1024 310 T 1136 310"
+          stroke="#2D4A3E" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <g id="sineNodes">
+          <circle cx="64" cy="310" r="5" fill="#2D4A3E"/>
+          <circle cx="184" cy="276" r="5" fill="#2D4A3E"/>
+          <circle cx="304" cy="310" r="5" fill="#2D4A3E"/>
+          <circle cx="424" cy="276" r="5" fill="#2D4A3E"/>
+          <circle cx="544" cy="310" r="5" fill="#2D4A3E"/>
+          <circle cx="664" cy="276" r="5" fill="#2D4A3E"/>
+          <circle cx="784" cy="310" r="5" fill="#2D4A3E"/>
+          <circle cx="904" cy="276" r="5" fill="#2D4A3E"/>
+          <circle cx="1024" cy="310" r="5" fill="#2D4A3E"/>
+          <circle cx="1136" cy="310" r="5" fill="#2D4A3E"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="rhythm-text-cols reveal">
+      <p>Метод не предлагает <strong>«изменить жизнь за 21 день»</strong>. Он начинается с гораздо более простого — научиться видеть, что у каждой жизни уже есть свой узор. Не случайный набор событий, а ритм.</p>
+      <p>Этот узор можно <strong>читать, как читают ноты</strong>. Замечать повторяющиеся такты — те же люди, те же сюжеты, те же кризисы в одинаковых интервалах. И понимать, какой именно ритм сейчас звучит.</p>
+      <p>А когда ритм виден — с ним можно работать. Уплотнять то, что нужно. Разуплотнять то, что мешает. Это и есть <strong>практика метода 7Р0</strong> — не вмешательство в жизнь, а настройка её ритма.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 3: THREE LEVELS ====== -->
+<section class="section" style="background:var(--paper-warm)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;004 — 005</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">03 — Три уровня метода</div>
+      <h2 class="section-title">Три главы<br>одной <em>работы</em></h2>
+      <p class="section-intro">
+        Метод устроен как три взаимосвязанных уровня. На каждом из них — свои инструменты и своя задача. Все вместе они складываются в практику ритмолога.
+      </p>
+    </div>
+
+    <div class="levels-grid">
+      <div class="level-card reveal">
+        <div class="level-num">I.</div>
+        <h3>Наблюдатель</h3>
+        <p>Учимся замечать то, что происходит с нами и вокруг — без оценок, в реальном времени. Это основа всех остальных практик метода.</p>
+        <div class="level-illu">
+          <svg viewBox="0 0 160 120" class="level-svg">
+            <circle cx="80" cy="60" r="50" stroke-dasharray="320" stroke-dashoffset="320" class="draw"/>
+            <circle cx="80" cy="60" r="32" stroke-dasharray="200" stroke-dashoffset="200" class="draw" style="animation-delay:.2s"/>
+            <circle cx="80" cy="60" r="14" stroke-dasharray="90" stroke-dashoffset="90" class="draw" style="animation-delay:.4s"/>
+            <circle cx="80" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="level-card reveal">
+        <div class="level-num">II.</div>
+        <h3>Разуплотнение и&nbsp;уплотнение</h3>
+        <p>Работаем с состояниями: убираем то, что мешает (помехи, обиды, оценочность), наполняем тем, что нужно (ясность, уверенность, ритмологичность).</p>
+        <div class="level-illu">
+          <svg viewBox="0 0 160 120" class="level-svg">
+            <!-- Diverging arrows + converging arrows -->
+            <line x1="40" y1="60" x2="20" y2="40" stroke-dasharray="40" stroke-dashoffset="40" class="draw"/>
+            <line x1="40" y1="60" x2="20" y2="80" stroke-dasharray="40" stroke-dashoffset="40" class="draw"/>
+            <line x1="40" y1="60" x2="60" y2="60" stroke-dasharray="20" stroke-dashoffset="20" class="draw"/>
+            <line x1="120" y1="60" x2="100" y2="60" stroke-dasharray="20" stroke-dashoffset="20" class="draw" style="animation-delay:.2s"/>
+            <line x1="120" y1="60" x2="140" y2="40" stroke-dasharray="40" stroke-dashoffset="40" class="draw" style="animation-delay:.2s"/>
+            <line x1="120" y1="60" x2="140" y2="80" stroke-dasharray="40" stroke-dashoffset="40" class="draw" style="animation-delay:.2s"/>
+            <circle cx="40" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <circle cx="120" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <text x="40" y="105" font-family="JetBrains Mono" font-size="9" fill="#5C574E" text-anchor="middle" letter-spacing="1">↺</text>
+            <text x="120" y="105" font-family="JetBrains Mono" font-size="9" fill="#5C574E" text-anchor="middle" letter-spacing="1">↻</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="level-card reveal">
+        <div class="level-num">III.</div>
+        <h3>Ритмы и&nbsp;событийные нити</h3>
+        <p>Видим повторяющиеся узоры событий и работаем с ними — выходим из циклов, которые крутят на одном месте, и переключаемся в свой собственный ритм времени.</p>
+        <div class="level-illu">
+          <svg viewBox="0 0 160 120" class="level-svg">
+            <path d="M 10 60 Q 30 30 50 60 T 90 60 T 130 60 T 150 60"
+                  stroke-dasharray="200" stroke-dashoffset="200" class="draw"/>
+            <circle cx="10" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <circle cx="50" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <circle cx="90" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <circle cx="130" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <circle cx="30" cy="42" r="2" fill="#B8884A" stroke="none"/>
+            <circle cx="70" cy="42" r="2" fill="#B8884A" stroke="none"/>
+            <circle cx="110" cy="42" r="2" fill="#B8884A" stroke="none"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.draw{animation:drawIn 1s ease-out forwards;animation-play-state:paused}
+.in .draw{animation-play-state:running}
+@keyframes drawIn{to{stroke-dashoffset:0}}
+</style>
+
+<!-- ====== SECTION 4: STAGES ====== -->
+<section class="section" id="stages" style="background:var(--paper)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;006 — 011</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">04 — Ступени обучения</div>
+      <h2 class="section-title">Две ступени —<br>для <em>себя</em> и для <em>профессии</em></h2>
+      <p class="section-intro">
+        Метод можно изучать как практику для собственной жизни — или как профессиональный инструмент работы с клиентами. Программа построена так, чтобы вы могли остановиться на любом этапе или пройти весь путь.
+      </p>
+    </div>
+
+    <!-- Stage 1 -->
+    <div class="stage reveal">
+      <div class="stage-image">
+        <div class="bg b1"></div>
+        <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+          <!-- Books on shelf -->
+          <rect x="60" y="100" width="480" height="14" fill="#8A6A3F" opacity=".7"/>
+          <g>
+            <rect x="80" y="50" width="38" height="50" fill="#2D4A3E"/>
+            <rect x="120" y="40" width="32" height="60" fill="#A0533D"/>
+            <rect x="154" y="45" width="42" height="55" fill="#B8884A"/>
+            <rect x="198" y="55" width="28" height="45" fill="#1F3329"/>
+            <rect x="228" y="38" width="40" height="62" fill="#5C574E"/>
+            <rect x="270" y="48" width="36" height="52" fill="#7A4A2E"/>
+            <rect x="308" y="42" width="30" height="58" fill="#2D4A3E"/>
+            <rect x="340" y="50" width="44" height="50" fill="#B8884A"/>
+            <rect x="386" y="40" width="32" height="60" fill="#A0533D"/>
+            <rect x="420" y="46" width="38" height="54" fill="#1F3329"/>
+            <rect x="460" y="44" width="34" height="56" fill="#5C574E"/>
+          </g>
+          <!-- Notebook open on lower part -->
+          <g transform="translate(120,260) rotate(-3)">
+            <rect width="360" height="240" fill="#FAF6EF" stroke="#C9B898" stroke-width="1"/>
+            <line x1="180" y1="0" x2="180" y2="240" stroke="#C9B898" stroke-width=".5"/>
+            <g opacity=".5" stroke="#5C574E" stroke-width=".7">
+              <line x1="20" y1="40" x2="160" y2="40"/>
+              <line x1="20" y1="60" x2="160" y2="60"/>
+              <line x1="20" y1="80" x2="140" y2="80"/>
+              <line x1="20" y1="100" x2="160" y2="100"/>
+              <line x1="20" y1="120" x2="120" y2="120"/>
+              <line x1="200" y1="40" x2="340" y2="40"/>
+              <line x1="200" y1="60" x2="340" y2="60"/>
+              <line x1="200" y1="80" x2="320" y2="80"/>
+              <line x1="200" y1="100" x2="340" y2="100"/>
+            </g>
+          </g>
+          <!-- Hand suggestion: a pen -->
+          <g transform="translate(380,420) rotate(40)">
+            <rect width="120" height="6" rx="3" fill="#2D4A3E"/>
+            <polygon points="120,3 132,1 132,5" fill="#B8884A"/>
+          </g>
+        </svg>
+        <div class="stage-image-tag">Книги · тетрадь · своя практика</div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-step"><span class="dot"></span>Ступень 01 · Для себя</div>
+        <h3>Фундамент<br><em>Ритмометода</em></h3>
+        <p class="stage-desc">Базовый курс для тех, кто хочет освоить метод для собственной жизни. Знакомство с авторскими инструментами и встраивание их в повседневную практику.</p>
+        <ul class="stage-list">
+          <li>Наблюдатель и его аспекты — основа всех практик</li>
+          <li>Разуплотнение помех и уплотнение нужных состояний</li>
+          <li>Работа с пенообразованием — острыми реакциями</li>
+          <li>Сбор событийных нитей — поиск повторяющихся узоров</li>
+          <li>Чтение знаков и трактовка их смыслов</li>
+          <li>Работа с ритмом дня</li>
+        </ul>
+        <div class="stage-metrics">
+          <div class="stage-metric"><div class="v" data-count="4">4</div><div class="l">месяца длительность</div></div>
+          <div class="stage-metric"><div class="v" data-count="4">4</div><div class="l">урока в модуле</div></div>
+          <div class="stage-metric"><div class="v">∞</div><div class="l">кураторская поддержка</div></div>
+        </div>
+        <div class="stage-buttons">
+          <a class="btn btn-primary" href="#stages">Записаться на первую ступень <span class="btn-arrow">→</span></a>
+          <a class="btn btn-ghost" href="#stages">Узнать программу подробнее</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-divider">
+      <span class="knot"></span>
+      <span>Можно остановиться на первой ступени или пройти весь путь</span>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage fr2 flip reveal">
+      <div class="stage-body">
+        <div class="stage-step"><span class="dot"></span>Ступень 02 · Для профессии</div>
+        <h3>Профессиональная<br><em>переподготовка</em></h3>
+        <p class="stage-desc">Для тех, кто уже знает метод и хочет работать ритмологом-консультантом профессионально. Многомесячное обучение с практикой консультаций под кураторством.</p>
+        <ul class="stage-list">
+          <li>Установление контакта с клиентом и психология консультирования</li>
+          <li>Профессиональная этика и границы работы ритмолога</li>
+          <li>Углублённая работа: Хладастейные поля, Пустоты, Завод времён</li>
+          <li>Подготовка к консультации и презентация себя клиенту</li>
+          <li>Метод зелёной ручки, отзеркаливание, виды слушания</li>
+          <li>Маркетинг и выход в широкий мир — как находить клиентов</li>
+        </ul>
+        <div class="stage-metrics">
+          <div class="stage-metric"><div class="v" data-count="1">1</div><div class="l">год обучения</div></div>
+          <div class="stage-metric"><div class="v">Гос.</div><div class="l">диплом по окончании</div></div>
+          <div class="stage-metric"><div class="v" data-count="2">2</div><div class="l">набора в год</div></div>
+        </div>
+        <div class="stage-buttons">
+          <a class="btn btn-primary" href="#stages" style="background:var(--clay)">Узнать о профессиональной программе <span class="btn-arrow">→</span></a>
+        </div>
+      </div>
+      <div class="stage-image">
+        <div class="bg b2"></div>
+        <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+          <!-- Two facing chairs / consultation suggestion -->
+          <ellipse cx="300" cy="500" rx="220" ry="20" fill="#000" opacity=".25"/>
+          <!-- Chair left -->
+          <g transform="translate(150,260)">
+            <rect x="0" y="20" width="100" height="120" rx="8" fill="#5C574E"/>
+            <rect x="-8" y="10" width="116" height="40" rx="14" fill="#7A6F5C"/>
+            <rect x="0" y="140" width="14" height="80" fill="#3F3528"/>
+            <rect x="86" y="140" width="14" height="80" fill="#3F3528"/>
+          </g>
+          <!-- Chair right -->
+          <g transform="translate(350,260)">
+            <rect x="0" y="20" width="100" height="120" rx="8" fill="#7A6F5C"/>
+            <rect x="-8" y="10" width="116" height="40" rx="14" fill="#8F8470"/>
+            <rect x="0" y="140" width="14" height="80" fill="#3F3528"/>
+            <rect x="86" y="140" width="14" height="80" fill="#3F3528"/>
+          </g>
+          <!-- Small table between -->
+          <rect x="280" y="380" width="40" height="50" fill="#3F3528"/>
+          <ellipse cx="300" cy="378" rx="32" ry="6" fill="#A0533D"/>
+          <!-- Light from window top right -->
+          <path d="M 600 0 L 600 240 L 460 0 Z" fill="rgba(255,228,170,0.18)"/>
+        </svg>
+        <div class="stage-image-tag dark">Консультация · клиент и&nbsp;ритмолог</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 5: WHO FITS ====== -->
+<section class="section" style="background:var(--paper-warm)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;012 — 014</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">05 — Кому подходит метод</div>
+      <h2 class="section-title">Узнайте<br><em>себя</em></h2>
+      <p class="section-intro">
+        По нашим данным, ученики курса — образованные взрослые, многие 45+, с управленческим, инженерным или экспертным опытом. Они приходят за глубокой работой, не за лайфхаками. Чаще всего — узнают себя в одном из трёх типов.
+      </p>
+    </div>
+
+    <div class="who-block reveal">
+      <div class="who-num">
+        <span class="ord">Тип первый</span>
+        Один.
+      </div>
+      <div>
+        <div class="who-quote">Я давно в методе и&nbsp;хочу&nbsp;глубже</div>
+        <p class="who-text">
+          Знаете ритмологию много лет, читали книги, ходили на радасты, практиковали для себя — но не проходили системного курса. Готовы перейти от любительской практики к структурному освоению.
+        </p>
+        <div class="who-stat"><strong>30%</strong>&nbsp;потока — со стажем 20+ лет в&nbsp;методе</div>
+      </div>
+    </div>
+
+    <div class="who-block reveal">
+      <div class="who-num">
+        <span class="ord">Тип второй</span>
+        Два.
+      </div>
+      <div>
+        <div class="who-quote">Хочу понять, как устроена моя жизнь</div>
+        <p class="who-text">
+          Чувствуете, что ходите по кругу: повторяете один и тот же сюжет в отношениях, работе, здоровье. Хотите увидеть свои нити и вырваться из них. Готовы к системной работе с собственным временем.
+        </p>
+        <div class="who-stat"><strong>51%</strong>&nbsp;учеников — со стажем 10+ лет в&nbsp;практиках</div>
+      </div>
+    </div>
+
+    <div class="who-block reveal">
+      <div class="who-num">
+        <span class="ord">Тип третий</span>
+        Три.
+      </div>
+      <div>
+        <div class="who-quote">Возвращаюсь к мечте юности</div>
+        <p class="who-text">
+          В молодости хотели заниматься психологией, философией, литературой — но жизнь увела в другую сторону. Сейчас, накопив опыт, готовы вернуться к глубокой работе с человеком — теперь уже на уровне ритмологии. Многие приходят на ФР2 именно так.
+        </p>
+        <div class="who-stat"><strong>45+</strong>&nbsp;средний возраст ученика второй ступени</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 6: VOICES ====== -->
+<section class="section" id="voices" style="background:var(--paper)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;015 — 017</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">06 — Что говорят выпускники</div>
+      <h2 class="section-title">Цифры<br>и&nbsp;<em>голоса</em></h2>
+      <p class="section-intro">
+        По результатам анализа отзывов 333 учеников первой ступени и более 450 учеников второй ступени. После первого модуля выпускники отмечают:
+      </p>
+    </div>
+
+    <div class="stats-grid reveal">
+      <div class="stat-cell">
+        <div class="corner">i.</div>
+        <div class="num" data-count="49" data-suffix="%">0%</div>
+        <div class="lbl">Регулярно используют разуплотнение и&nbsp;уплотнение в&nbsp;повседневной жизни</div>
+      </div>
+      <div class="stat-cell">
+        <div class="corner">ii.</div>
+        <div class="num" data-count="44" data-suffix="%">0%</div>
+        <div class="lbl">Освоили технику отзеркаливания, применяют её на работе и&nbsp;в&nbsp;семье</div>
+      </div>
+      <div class="stat-cell">
+        <div class="corner">iii.</div>
+        <div class="num" data-count="34" data-suffix="%">0%</div>
+        <div class="lbl">Работают с&nbsp;Пустотами как ежедневным инструментом</div>
+      </div>
+      <div class="stat-cell">
+        <div class="corner">iv.</div>
+        <div class="num" data-count="26" data-suffix="%">0%</div>
+        <div class="lbl">Научились отслеживать развёртку ритма дня в&nbsp;реальные события</div>
+      </div>
+    </div>
+
+    <div class="quotes-grid">
+      <div class="qcard reveal long">
+        <div class="qmark">«</div>
+        <p>Метод дал мне Фильтр Профессионального корня, и я смогла уйти с работы, которая разрушала мне здоровье. Сейчас я учусь работать с людьми по-другому — не помогая им, а вводя их во время.</p>
+        <div class="who">Выпускница ФР1 · 56 лет · <em>бывший главный бухгалтер</em></div>
+      </div>
+      <div class="qcard green reveal">
+        <div class="qmark">«</div>
+        <p>После окончания 10 класса я хотела пойти учиться на психолога, но тогда такой специальности не было. Спустя столько лет моё желание реализовывается.</p>
+        <div class="who">Выпускница ФР2 · 51 год · <em>возвращение к мечте</em></div>
+      </div>
+      <div class="qcard reveal">
+        <div class="qmark">«</div>
+        <p>Удивило, насколько близки у всех ожидания от курса. Я ощутила единение в потоке и мощный прилив сил.</p>
+        <div class="who">Выпускник ФР1 · 42 года · <em>IT-руководитель</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 7: AUTHOR ====== -->
+<section class="section" id="author" style="background:var(--paper-warm)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;018 — 020</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">07 — Автор</div>
+      <h2 class="section-title">Метод Евдокии<br>Дмитриевны <em>Лучезарновой</em></h2>
+      <p class="section-intro">
+        Метод 7Р0 разработан Евдокией Дмитриевной за более чем 30 лет исследований и преподавания. Опубликовано более 100 книг с авторскими инструментами. Создана школа кураторов, обучившая тысячи человек.
+      </p>
+    </div>
+
+    <div class="author-grid">
+      <div class="author-photo reveal">
+        <div class="grain"></div>
+        <svg viewBox="0 0 400 533" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+          <!-- Bookshelf with books -->
+          <rect x="40" y="100" width="320" height="14" fill="#3F3528"/>
+          <rect x="40" y="280" width="320" height="14" fill="#3F3528"/>
+          <g opacity=".95">
+            <rect x="60" y="40" width="28" height="60" fill="#A0533D"/>
+            <rect x="90" y="30" width="22" height="70" fill="#1F3329"/>
+            <rect x="114" y="50" width="32" height="50" fill="#B8884A"/>
+            <rect x="148" y="38" width="20" height="62" fill="#3F4F44"/>
+            <rect x="170" y="45" width="28" height="55" fill="#7A4A2E"/>
+            <rect x="200" y="32" width="24" height="68" fill="#2D4A3E"/>
+            <rect x="226" y="42" width="34" height="58" fill="#5C574E"/>
+            <rect x="262" y="48" width="22" height="52" fill="#A0533D"/>
+            <rect x="286" y="36" width="28" height="64" fill="#1F3329"/>
+            <rect x="316" y="44" width="24" height="56" fill="#B8884A"/>
+          </g>
+          <g opacity=".95">
+            <rect x="60" y="220" width="36" height="60" fill="#2D4A3E"/>
+            <rect x="98" y="210" width="24" height="70" fill="#A0533D"/>
+            <rect x="124" y="226" width="28" height="54" fill="#7A4A2E"/>
+            <rect x="154" y="218" width="22" height="62" fill="#1F3329"/>
+            <rect x="178" y="232" width="32" height="48" fill="#B8884A"/>
+            <rect x="212" y="220" width="26" height="60" fill="#5C574E"/>
+            <rect x="240" y="216" width="22" height="64" fill="#3F4F44"/>
+            <rect x="264" y="228" width="30" height="52" fill="#A0533D"/>
+            <rect x="296" y="222" width="20" height="58" fill="#2D4A3E"/>
+            <rect x="318" y="226" width="28" height="54" fill="#1F3329"/>
+          </g>
+          <!-- Desk lamp / portrait suggestion -->
+          <g transform="translate(140,330)">
+            <ellipse cx="60" cy="170" rx="100" ry="14" fill="#000" opacity=".4"/>
+            <!-- Books stacked -->
+            <rect x="0" y="120" width="120" height="22" fill="#A0533D"/>
+            <rect x="6" y="100" width="108" height="22" fill="#2D4A3E"/>
+            <rect x="2" y="80" width="116" height="22" fill="#B8884A"/>
+            <!-- Tea cup -->
+            <ellipse cx="160" cy="142" rx="20" ry="5" fill="#1F3329"/>
+            <path d="M 142 142 L 144 174 Q 144 184 160 184 Q 176 184 176 174 L 178 142" fill="#3F4F44"/>
+          </g>
+          <!-- Soft warm light overlay -->
+          <rect x="0" y="0" width="400" height="533" fill="url(#warmL)"/>
+          <defs>
+            <radialGradient id="warmL" cx="0.3" cy="0.3" r="0.7">
+              <stop offset="0%" stop-color="rgba(255,228,170,0.18)"/>
+              <stop offset="100%" stop-color="rgba(255,228,170,0)"/>
+            </radialGradient>
+          </defs>
+        </svg>
+        <div class="caption">Архив автора<em>Кабинет, книги, тёплый свет</em></div>
+      </div>
+
+      <div class="author-text reveal">
+        <h3>30 лет работы,<br><em>100+ книг,</em><br>тысячи учеников</h3>
+        <p>Евдокия Дмитриевна начала исследование того, что позже стало Ритмометодом, в начале 1990-х. К 2003 году вышла первая книга метода. К 2010-му — была создана школа кураторов. К 2024-му — опубликовано более ста книг с авторскими инструментами.</p>
+        <p>Метод не возник из абстрактной концепции. Он рос из реальной практики автора с тысячами клиентов, проверялся в долгих наблюдениях за повторяющимися узорами. Терминология — Хладастейные поля, Пустоты, Завод времён, событийные нити — отражает конкретные техники, а не философские идеи.</p>
+
+        <div class="author-feats">
+          <div class="author-feat">
+            <h4>Авторская терминология</h4>
+            <p>Каждое понятие отражает конкретный аспект работы со временем.</p>
+          </div>
+          <div class="author-feat">
+            <h4>Системность</h4>
+            <p>Техники складываются в единый алгоритм, а не в разрозненный набор.</p>
+          </div>
+          <div class="author-feat">
+            <h4>Практичность</h4>
+            <p>Каждый инструмент проверен в работе с реальными клиентами.</p>
+          </div>
+          <div class="author-feat">
+            <h4>Преемственность</h4>
+            <p>Метод передаётся через цепочку учителей, сохраняя точность.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="tline">
+        <div class="yr">1990</div>
+        <div class="desc">Начало исследований метода</div>
+      </div>
+      <div class="tline">
+        <div class="yr">2003</div>
+        <div class="desc">Выходит первая книга метода</div>
+      </div>
+      <div class="tline">
+        <div class="yr">2010</div>
+        <div class="desc">Открыта школа кураторов</div>
+      </div>
+      <div class="tline">
+        <div class="yr">2024</div>
+        <div class="desc">100+ опубликованных книг</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 8: FREE MATERIALS ====== -->
+<section class="section" id="free" style="background:var(--paper)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;021 — 022</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">08 — Бесплатные материалы</div>
+      <h2 class="section-title">Попробуйте<br>метод <em>до записи</em></h2>
+      <p class="section-intro">
+        Подготовили три бесплатных материала, чтобы вы могли почувствовать тон, язык и подход метода — и принять решение об обучении на основании реального опыта, а не описания.
+      </p>
+    </div>
+
+    <div class="free-grid">
+      <div class="fcard reveal">
+        <div class="fcard-vis"><div class="book-mock"></div></div>
+        <div class="fcard-tag">Книга · PDF</div>
+        <h4>«Память будущего»</h4>
+        <p>Главная книга для знакомства с методом. PDF доступен для скачивания. Прочитайте — и решите, ваше это или нет.</p>
+        <a href="#">Скачать PDF <span class="btn-arrow">→</span></a>
+      </div>
+
+      <div class="fcard reveal">
+        <div class="fcard-vis">
+          <div class="audio-mock">
+            <div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="wave" id="wave"></div>
+            <div class="dur">2 ч 14 мин</div>
+          </div>
+        </div>
+        <div class="fcard-tag">Аудиоэфир</div>
+        <h4>«Ритмологический рисунок»</h4>
+        <p>Запись установочного эфира с автором и кураторами. Два часа знакомства с центральной концепцией метода.</p>
+        <a href="#">Слушать эфир <span class="btn-arrow">→</span></a>
+      </div>
+
+      <div class="fcard reveal">
+        <div class="fcard-vis">
+          <div class="tg-mock">
+            <div class="head">
+              <div class="av">Р</div>
+              <div>
+                <div class="nm">Фундамент Ритмометода</div>
+                <div class="sub">2 480 подписчиков</div>
+              </div>
+            </div>
+            <div class="msg">Сегодня — короткое упражнение на <em>наблюдателя</em>: за 3 минуты заметить пять звуков вокруг…</div>
+            <div class="msg" style="background:var(--ochre-soft);font-size:9.5px">Анонс потока ФР1 — старт через 2 недели</div>
+          </div>
+        </div>
+        <div class="fcard-tag">Telegram-канал</div>
+        <h4>Регулярная практика</h4>
+        <p>Подписывайтесь — получайте практические упражнения, ответы на вопросы и анонсы новых потоков.</p>
+        <a href="#">Подписаться <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 9: PROCESS ====== -->
+<section class="section" style="background:var(--paper-warm)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;023 — 025</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">09 — Как устроено обучение</div>
+      <h2 class="section-title">Шаг за&nbsp;<em>шагом</em></h2>
+      <p class="section-intro">
+        Обучение построено так, чтобы вы продвигались в собственном темпе, но в общем потоке группы. У каждого этапа — точка входа и точка проверки усвоенного.
+      </p>
+    </div>
+
+    <div class="process reveal" id="process">
+      <div class="process-line-active" id="processLine"></div>
+
+      <div class="pstep">
+        <div class="pstep-num">01</div>
+        <div class="pstep-body">
+          <h4>Установочный эфир</h4>
+          <p>Знакомство с программой, кураторами и группой. Озвучивание целей и ожиданий — у каждого свои.</p>
+          <div class="pstep-meta">2 часа · в Zoom</div>
+        </div>
+      </div>
+
+      <div class="pstep">
+        <div class="pstep-num">02</div>
+        <div class="pstep-body">
+          <h4>Уроки 1–4 первого модуля</h4>
+          <p>Каждый урок — отдельная тема: наблюдатель, разуплотнение/уплотнение, пенообразование и нити, ритм дня. После каждого — практическое задание и обратная связь.</p>
+          <div class="pstep-meta">4 урока · 1 в месяц</div>
+        </div>
+      </div>
+
+      <div class="pstep">
+        <div class="pstep-num">03</div>
+        <div class="pstep-body">
+          <h4>Кураторская поддержка</h4>
+          <p>Регулярные созвоны с куратором в малых группах. Разбор ваших личных кейсов. Возможность задать вопрос экспертам курса напрямую.</p>
+          <div class="pstep-meta">Малые группы · 6–8 человек</div>
+        </div>
+      </div>
+
+      <div class="pstep">
+        <div class="pstep-num">04</div>
+        <div class="pstep-body">
+          <h4>Промежуточные проверки</h4>
+          <p>Анкеты, в которых вы фиксируете свои озарения и сложности. Помогает закрепить пройденное — и куратору увидеть, где нужна помощь.</p>
+          <div class="pstep-meta">По мере прохождения</div>
+        </div>
+      </div>
+
+      <div class="pstep">
+        <div class="pstep-num">05</div>
+        <div class="pstep-body">
+          <h4>Завершение модуля</h4>
+          <p>Подведение итогов, формулировка плана внедрения метода в жизнь, переход к следующему модулю или ко второй ступени — если вы решите.</p>
+          <div class="pstep-meta">Финальный созвон · план действий</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 10: FAQ ====== -->
+<section class="section" id="faq" style="background:var(--paper)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;026 — 028</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">10 — Часто задаваемые вопросы</div>
+      <h2 class="section-title">Спокойные<br><em>ответы</em></h2>
+      <p class="section-intro">
+        Если у вас есть вопрос, на который здесь нет ответа — напишите куратору в Telegram. Это нормально — спрашивать до того, как решить.
+      </p>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq" open>
+        <summary>Это эзотерика или научная практика?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>Метод не позиционируется как эзотерический. Это <em>авторская практика работы со временем</em> с собственной терминологией и инструментами. Обучение даёт чёткие алгоритмы и техники, а не философские концепции. Каждый инструмент проверен в работе с реальными клиентами.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Можно ли пройти курс без предварительной подготовки?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>Да. Первая ступень рассчитана на людей без опыта в методе. Достаточно желания и готовности уделять обучению несколько часов в неделю. Все базовые понятия объясняются с нуля.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Сколько времени занимает обучение?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>Первая ступень — около 4 месяцев, по одному уроку в месяц с практикой между уроками. Вторая ступень — несколько модулей в течение года, с практикой консультаций под кураторством.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Что если я не смогу заниматься регулярно?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>Все материалы доступны в записи — вы можете возвращаться к ним. Кураторская поддержка не привязана к жёсткому графику: куратор адаптируется к вашему темпу. Главное — двигаться, пусть и медленно.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Как принимают решение о допуске на вторую ступень?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>По итогам первой ступени и собеседования с куратором. Не все ученики первой ступени продолжают — это нормально. Вторая ступень для тех, кто хочет работать с клиентами профессионально и готов к долгой практике.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Где работают выпускники?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>В частной практике — как ритмологи-консультанты. Также в смежных сферах: коучинг, психологическое сопровождение, обучение взрослых. Многие совмещают практику ритмолога с прежней профессией.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Сколько стоит обучение?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>Стоимость указана на странице с программами. Возможна оплата частями. Если оплата для вас сейчас сложна — напишите куратору, мы обсудим варианты, включая рассрочку и стипендиальные места для одаренных учеников.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 11: FINAL CTA ====== -->
+<section class="final">
+  <div class="final-num"><em>p.</em>&nbsp;&nbsp;029</div>
+  <div class="container">
+    <h2>Если вы дочитали<br>до этого места —<br>возможно, метод<br><em>уже выбрал вас</em></h2>
+    <p class="lead">Запишитесь на ближайший поток первой ступени или свяжитесь с куратором, чтобы обсудить, какой вариант подходит именно вам.</p>
+    <div class="final-buttons">
+      <a class="btn btn-primary" href="#">Записаться на первую ступень <span class="btn-arrow">→</span></a>
+      <a class="btn btn-secondary" href="#">Связаться с куратором</a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Ритмо<em>метод</em></div>
+        <p class="footer-tag">Школа авторского метода Евдокии Дмитриевны Лучезарновой. Две ступени обучения для тех, кто хочет жить в ритме своего времени.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Школа</h5>
+        <ul>
+          <li><a href="#method">О методе</a></li>
+          <li><a href="#stages">Ступени обучения</a></li>
+          <li><a href="#author">Автор</a></li>
+          <li><a href="#voices">Выпускники</a></li>
+          <li><a href="#">Расписание потоков</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Программы</h5>
+        <ul>
+          <li><a href="#">ФР1 — первая ступень</a></li>
+          <li><a href="#">ФР2 — переподготовка</a></li>
+          <li><a href="#">Корпоративные программы</a></li>
+          <li><a href="#">Книги Е. Д. Лучезарновой</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Контакты</h5>
+        <ul>
+          <li><a href="#">Telegram-поддержка</a></li>
+          <li><a href="#">Email</a></li>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Публичная оферта</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 1998–2026 Школа Ритмометода 7Р0. Авторская методика Е. Д. Лучезарновой</span>
+      <span><em>«Время — это ритм, а не часы»</em></span>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<script>
+// ===== Custom cursor =====
+(function(){
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  if (!dot || window.matchMedia('(max-width: 968px)').matches) return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`});
+  function loop(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(loop)}
+  loop();
+  document.querySelectorAll('a,button,summary,.level-card,.fcard,.qcard,details').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
+  });
+})();
+
+// ===== Reading progress =====
+(function(){
+  const bar = document.getElementById('readProg');
+  function upd(){
+    const h = document.documentElement;
+    const pct = (h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+    bar.style.width = Math.min(100,Math.max(0,pct))+'%';
+  }
+  document.addEventListener('scroll',upd,{passive:true});upd();
+})();
+
+// ===== Reveal on scroll =====
+(function(){
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.12,rootMargin:'0px 0px -60px 0px'});
+  els.forEach(el=>io.observe(el));
+})();
+
+// ===== Number counters =====
+(function(){
+  const cells = document.querySelectorAll('[data-count]');
+  const easeOut = t => 1 - Math.pow(1-t,4);
+  cells.forEach(el=>{
+    const target = +el.dataset.count;
+    const suffix = el.dataset.suffix || '';
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(en=>{
+        if(en.isIntersecting){
+          const dur = 1200, t0 = performance.now();
+          function tick(t){
+            const k = Math.min(1,(t-t0)/dur);
+            const v = Math.round(target*easeOut(k));
+            el.textContent = v + suffix;
+            if(k<1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+          io.unobserve(en.target);
+        }
+      });
+    },{threshold:.5});
+    io.observe(el);
+  });
+})();
+
+// ===== Audio waveform bars =====
+(function(){
+  const wave = document.getElementById('wave');
+  if (!wave) return;
+  const heights = [8,16,24,12,28,18,8,22,14,28,20,10,16,24,30,14,8,18,26,16,12,22,10,18,26,14,8,20,16,24,12,18,8,22];
+  heights.forEach(h=>{
+    const s = document.createElement('span');
+    s.style.height = h+'px';
+    wave.appendChild(s);
+  });
+})();
+
+// ===== Event tooltip on rhythm chart =====
+(function(){
+  const tip = document.getElementById('evtTip');
+  document.querySelectorAll('#chaosEvents circle').forEach(c=>{
+    c.style.cursor='none';
+    c.addEventListener('mouseenter', e => {
+      tip.textContent = c.dataset.label;
+      tip.style.opacity = 1;
+    });
+    c.addEventListener('mousemove', e => {
+      tip.style.left = e.clientX + 'px';
+      tip.style.top = (e.clientY - 8) + 'px';
+    });
+    c.addEventListener('mouseleave', () => tip.style.opacity = 0);
+  });
+})();
+
+// ===== Process line draw on scroll =====
+(function(){
+  const proc = document.getElementById('process');
+  const line = document.getElementById('processLine');
+  const steps = proc ? proc.querySelectorAll('.pstep') : [];
+  if (!proc) return;
+  function upd(){
+    const r = proc.getBoundingClientRect();
+    const winH = window.innerHeight;
+    const start = winH * 0.7;
+    const end = winH * 0.2;
+    const total = r.height;
+    const seen = Math.max(0, Math.min(total, start - r.top));
+    line.style.height = seen + 'px';
+    steps.forEach(st=>{
+      const sr = st.getBoundingClientRect();
+      if (sr.top < winH*0.65) st.classList.add('lit');
+    });
+  }
+  document.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

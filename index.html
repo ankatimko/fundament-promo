@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Фундамент Ритмометода — авторский курс Е. Д. Лучезарновой</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Reading progress -->
+<div class="read-progress" id="readProg"></div>
+
+<!-- Bookmark ribbon -->
+<div class="bookmark" aria-hidden="true"></div>
+
+<!-- Tooltip -->
+<div class="evt-tip" id="evtTip"></div>
+
+<!-- ====== NAV ====== -->
+<nav class="nav">
+  <div class="nav-logo">Ритмо<em>метод</em><span class="pg">7Р0 · School</span></div>
+  <ul class="nav-links">
+    <li><a href="#method">Метод</a></li>
+    <li><a href="#stages">Ступени</a></li>
+    <li><a href="#voices">Выпускники</a></li>
+    <li><a href="#author">Автор</a></li>
+    <li><a href="#free">Материалы</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a class="nav-cta" href="#stages">Записаться <span class="btn-arrow">→</span></a>
+</nav>
+
+<main>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-meta reveal">
+          <span>Школа Ритмометода</span>
+          <span>333 выпускника</span>
+          <span>с 1998 года</span>
+        </div>
+        <h1 class="reveal">
+          Практика для тех,<br>
+          кто хочет жить<br>
+          в <em>ритме своего</em><br>
+          <em>времени</em>
+        </h1>
+        <p class="hero-sub reveal">
+          Авторская методика Евдокии Дмитриевны Лучезарновой. Две ступени обучения для тех, кто различает своё время — и хочет работать с собственными ритмами осознанно.
+        </p>
+        <div class="hero-buttons reveal">
+          <a class="btn btn-primary" href="#stages">Узнать о ступенях <span class="btn-arrow">→</span></a>
+          <a class="btn btn-ghost" href="#free">Бесплатные материалы</a>
+        </div>
+        <p class="hero-anchors reveal">
+          Доступны два уровня: для собственной жизни и для&nbsp;профессии&nbsp;ритмолога-консультанта.
+        </p>
+      </div>
+      <div class="hero-image reveal">
+        <div class="scene"></div>
+        <!-- Still life: notebook, pen, cup -->
+        <svg class="hero-svg" viewBox="0 0 480 600" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="paperG" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FAF6EF"/>
+              <stop offset="100%" stop-color="#E8DFCC"/>
+            </linearGradient>
+            <linearGradient id="cupG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3F4F44"/>
+              <stop offset="100%" stop-color="#1F3329"/>
+            </linearGradient>
+          </defs>
+          <!-- Window light wash on left -->
+          <rect x="0" y="0" width="200" height="600" fill="rgba(255,236,189,0.18)"/>
+          <!-- Linen surface -->
+          <rect x="0" y="380" width="480" height="220" fill="#D9CDB0" opacity=".55"/>
+          <!-- Notebook -->
+          <g transform="translate(100,250) rotate(-6)">
+            <rect x="0" y="0" width="280" height="200" fill="url(#paperG)" stroke="#C9B898" stroke-width="1"/>
+            <rect x="0" y="0" width="14" height="200" fill="#B8884A" opacity=".6"/>
+            <line x1="40" y1="40" x2="240" y2="40" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <line x1="40" y1="62" x2="220" y2="62" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <line x1="40" y1="84" x2="250" y2="84" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <line x1="40" y1="106" x2="200" y2="106" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <line x1="40" y1="128" x2="240" y2="128" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <line x1="40" y1="150" x2="180" y2="150" stroke="#5C574E" stroke-width=".8" opacity=".5"/>
+            <circle cx="22" cy="60" r="3" fill="#A0533D" opacity=".5"/>
+          </g>
+          <!-- Pen -->
+          <g transform="translate(280,330) rotate(35)">
+            <rect x="0" y="0" width="120" height="6" rx="3" fill="#2D4A3E"/>
+            <rect x="110" y="-1" width="14" height="8" fill="#1F3329"/>
+            <polygon points="124,3 136,1 136,5" fill="#B8884A"/>
+          </g>
+          <!-- Cup -->
+          <g transform="translate(60,420)">
+            <ellipse cx="50" cy="14" rx="40" ry="10" fill="#1F3329"/>
+            <path d="M 10,14 L 14,90 Q 14,108 50,108 Q 86,108 86,90 L 90,14" fill="url(#cupG)" stroke="#161513" stroke-width=".5"/>
+            <ellipse cx="50" cy="14" rx="38" ry="8" fill="#7A4A2E" opacity=".7"/>
+            <ellipse cx="50" cy="12" rx="28" ry="4" fill="#A0533D" opacity=".5"/>
+            <path d="M 35 -10 Q 30 -28 38 -42 Q 44 -56 36 -70" stroke="#FAF6EF" stroke-width="1.5" fill="none" opacity=".55"/>
+            <path d="M 55 -8 Q 62 -24 56 -38 Q 50 -52 60 -68" stroke="#FAF6EF" stroke-width="1.5" fill="none" opacity=".4"/>
+          </g>
+          <!-- Window frame hint -->
+          <rect x="20" y="40" width="3" height="280" fill="#5C574E" opacity=".25"/>
+          <rect x="20" y="40" width="120" height="3" fill="#5C574E" opacity=".25"/>
+        </svg>
+        <div class="hero-pageref"><em>p.</em>&nbsp;&nbsp;001</div>
+        <div class="hero-image-tag">Тетрадь · стол · окно</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">
+    <span>Прокрутите, чтобы продолжить</span>
+    <span class="line"></span>
+  </div>
+</section>
+
+<!-- ====== SECTION 2: METHOD METAPHOR ====== -->
+<section class="section" id="method" style="background:var(--paper)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;002 — 003</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">02 — Метафора времени</div>
+      <h2 class="section-title">Что такое<br><em>ритм</em></h2>
+      <p class="section-intro">
+        Прежде чем рассказать про метод — попробуйте увидеть, что значит «жить в своём ритме». Это не философия. Это два разных способа смотреть на собственную жизнь.
+      </p>
+    </div>
+
+    <div class="rhythm-wrap reveal">
+      <svg class="rhythm-svg" viewBox="0 0 1200 380" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="fadeR" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#A0533D" stop-opacity="0"/>
+            <stop offset="20%" stop-color="#A0533D" stop-opacity="1"/>
+            <stop offset="80%" stop-color="#A0533D" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#A0533D" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- Top: chaotic line -->
+        <text x="64" y="58" font-family="JetBrains Mono" font-size="11" fill="#8A8478" letter-spacing="2" text-transform="uppercase">I — ЖИЗНЬ КАК НАБОР СЛУЧАЙНОСТЕЙ</text>
+        <line x1="64" y1="120" x2="1136" y2="120" stroke="#C9B898" stroke-width="1" stroke-dasharray="3 4"/>
+        <g class="chaos-events" id="chaosEvents">
+          <circle cx="120" cy="120" r="6" fill="#5C574E" data-label="Школа"/>
+          <circle cx="195" cy="120" r="9" fill="#A0533D" data-label="Развод родителей"/>
+          <circle cx="245" cy="120" r="4" fill="#5C574E" data-label="Первая работа"/>
+          <circle cx="340" cy="120" r="11" fill="#A0533D" data-label="Болезнь"/>
+          <circle cx="395" cy="120" r="5" fill="#5C574E" data-label="Переезд"/>
+          <circle cx="478" cy="120" r="7" fill="#5C574E" data-label="Брак"/>
+          <circle cx="565" cy="120" r="10" fill="#A0533D" data-label="Потеря работы"/>
+          <circle cx="620" cy="120" r="5" fill="#5C574E" data-label="Новый круг"/>
+          <circle cx="708" cy="120" r="8" fill="#A0533D" data-label="Развод"/>
+          <circle cx="780" cy="120" r="6" fill="#5C574E" data-label="Смена профессии"/>
+          <circle cx="845" cy="120" r="11" fill="#A0533D" data-label="Кризис"/>
+          <circle cx="935" cy="120" r="5" fill="#5C574E" data-label="Новая встреча"/>
+          <circle cx="1010" cy="120" r="7" fill="#5C574E" data-label="Терапия"/>
+          <circle cx="1090" cy="120" r="9" fill="#A0533D" data-label="Болезнь близкого"/>
+        </g>
+
+        <!-- Middle: divider -->
+        <text x="600" y="200" font-family="Fraunces" font-size="14" font-style="italic" fill="#8A8478" text-anchor="middle">— или —</text>
+
+        <!-- Bottom: rhythmic sine wave -->
+        <text x="64" y="248" font-family="JetBrains Mono" font-size="11" fill="#8A8478" letter-spacing="2" text-transform="uppercase">II — ЖИЗНЬ КАК РИТМ</text>
+        <path id="sinePath"
+          d="M 64 310 Q 144 250 224 310 T 384 310 T 544 310 T 704 310 T 864 310 T 1024 310 T 1136 310"
+          stroke="#2D4A3E" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <g id="sineNodes">
+          <circle cx="64" cy="310" r="5" fill="#2D4A3E"/>
+          <circle cx="184" cy="276" r="5" fill="#2D4A3E"/>
+          <circle cx="304" cy="310" r="5" fill="#2D4A3E"/>
+          <circle cx="424" cy="276" r="5" fill="#2D4A3E"/>
+          <circle cx="544" cy="310" r="5" fill="#2D4A3E"/>
+          <circle cx="664" cy="276" r="5" fill="#2D4A3E"/>
+          <circle cx="784" cy="310" r="5" fill="#2D4A3E"/>
+          <circle cx="904" cy="276" r="5" fill="#2D4A3E"/>
+          <circle cx="1024" cy="310" r="5" fill="#2D4A3E"/>
+          <circle cx="1136" cy="310" r="5" fill="#2D4A3E"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="rhythm-text-cols reveal">
+      <p>Метод не предлагает <strong>«изменить жизнь за 21 день»</strong>. Он начинается с гораздо более простого — научиться видеть, что у каждой жизни уже есть свой узор. Не случайный набор событий, а ритм.</p>
+      <p>Этот узор можно <strong>читать, как читают ноты</strong>. Замечать повторяющиеся такты — те же люди, те же сюжеты, те же кризисы в одинаковых интервалах. И понимать, какой именно ритм сейчас звучит.</p>
+      <p>А когда ритм виден — с ним можно работать. Уплотнять то, что нужно. Разуплотнять то, что мешает. Это и есть <strong>практика метода 7Р0</strong> — не вмешательство в жизнь, а настройка её ритма.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 3: THREE LEVELS ====== -->
+<section class="section" style="background:var(--paper-warm)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;004 — 005</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">03 — Три уровня метода</div>
+      <h2 class="section-title">Три главы<br>одной <em>работы</em></h2>
+      <p class="section-intro">
+        Метод устроен как три взаимосвязанных уровня. На каждом из них — свои инструменты и своя задача. Все вместе они складываются в практику ритмолога.
+      </p>
+    </div>
+
+    <div class="levels-grid">
+      <div class="level-card reveal">
+        <div class="level-num">I.</div>
+        <h3>Наблюдатель</h3>
+        <p>Учимся замечать то, что происходит с нами и вокруг — без оценок, в реальном времени. Это основа всех остальных практик метода.</p>
+        <div class="level-illu">
+          <svg viewBox="0 0 160 120" class="level-svg">
+            <circle cx="80" cy="60" r="50" stroke-dasharray="320" stroke-dashoffset="320" class="draw"/>
+            <circle cx="80" cy="60" r="32" stroke-dasharray="200" stroke-dashoffset="200" class="draw" style="animation-delay:.2s"/>
+            <circle cx="80" cy="60" r="14" stroke-dasharray="90" stroke-dashoffset="90" class="draw" style="animation-delay:.4s"/>
+            <circle cx="80" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="level-card reveal">
+        <div class="level-num">II.</div>
+        <h3>Разуплотнение и&nbsp;уплотнение</h3>
+        <p>Работаем с состояниями: убираем то, что мешает (помехи, обиды, оценочность), наполняем тем, что нужно (ясность, уверенность, ритмологичность).</p>
+        <div class="level-illu">
+          <svg viewBox="0 0 160 120" class="level-svg">
+            <line x1="40" y1="60" x2="20" y2="40" stroke-dasharray="40" stroke-dashoffset="40" class="draw"/>
+            <line x1="40" y1="60" x2="20" y2="80" stroke-dasharray="40" stroke-dashoffset="40" class="draw"/>
+            <line x1="40" y1="60" x2="60" y2="60" stroke-dasharray="20" stroke-dashoffset="20" class="draw"/>
+            <line x1="120" y1="60" x2="100" y2="60" stroke-dasharray="20" stroke-dashoffset="20" class="draw" style="animation-delay:.2s"/>
+            <line x1="120" y1="60" x2="140" y2="40" stroke-dasharray="40" stroke-dashoffset="40" class="draw" style="animation-delay:.2s"/>
+            <line x1="120" y1="60" x2="140" y2="80" stroke-dasharray="40" stroke-dashoffset="40" class="draw" style="animation-delay:.2s"/>
+            <circle cx="40" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <circle cx="120" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <text x="40" y="105" font-family="JetBrains Mono" font-size="9" fill="#5C574E" text-anchor="middle" letter-spacing="1">↺</text>
+            <text x="120" y="105" font-family="JetBrains Mono" font-size="9" fill="#5C574E" text-anchor="middle" letter-spacing="1">↻</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="level-card reveal">
+        <div class="level-num">III.</div>
+        <h3>Ритмы и&nbsp;событийные нити</h3>
+        <p>Видим повторяющиеся узоры событий и работаем с ними — выходим из циклов, которые крутят на одном месте, и переключаемся в свой собственный ритм времени.</p>
+        <div class="level-illu">
+          <svg viewBox="0 0 160 120" class="level-svg">
+            <path d="M 10 60 Q 30 30 50 60 T 90 60 T 130 60 T 150 60"
+                  stroke-dasharray="200" stroke-dashoffset="200" class="draw"/>
+            <circle cx="10" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <circle cx="50" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <circle cx="90" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <circle cx="130" cy="60" r="3" fill="#2D4A3E" stroke="none"/>
+            <circle cx="30" cy="42" r="2" fill="#B8884A" stroke="none"/>
+            <circle cx="70" cy="42" r="2" fill="#B8884A" stroke="none"/>
+            <circle cx="110" cy="42" r="2" fill="#B8884A" stroke="none"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 4: STAGES ====== -->
+<section class="section" id="stages" style="background:var(--paper)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;006 — 011</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">04 — Ступени обучения</div>
+      <h2 class="section-title">Две ступени —<br>для <em>себя</em> и для <em>профессии</em></h2>
+      <p class="section-intro">
+        Метод можно изучать как практику для собственной жизни — или как профессиональный инструмент работы с клиентами. Программа построена так, чтобы вы могли остановиться на любом этапе или пройти весь путь.
+      </p>
+    </div>
+
+    <!-- Stage 1 -->
+    <div class="stage reveal">
+      <div class="stage-image">
+        <div class="bg b1"></div>
+        <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+          <rect x="60" y="100" width="480" height="14" fill="#8A6A3F" opacity=".7"/>
+          <g>
+            <rect x="80" y="50" width="38" height="50" fill="#2D4A3E"/>
+            <rect x="120" y="40" width="32" height="60" fill="#A0533D"/>
+            <rect x="154" y="45" width="42" height="55" fill="#B8884A"/>
+            <rect x="198" y="55" width="28" height="45" fill="#1F3329"/>
+            <rect x="228" y="38" width="40" height="62" fill="#5C574E"/>
+            <rect x="270" y="48" width="36" height="52" fill="#7A4A2E"/>
+            <rect x="308" y="42" width="30" height="58" fill="#2D4A3E"/>
+            <rect x="340" y="50" width="44" height="50" fill="#B8884A"/>
+            <rect x="386" y="40" width="32" height="60" fill="#A0533D"/>
+            <rect x="420" y="46" width="38" height="54" fill="#1F3329"/>
+            <rect x="460" y="44" width="34" height="56" fill="#5C574E"/>
+          </g>
+          <g transform="translate(120,260) rotate(-3)">
+            <rect width="360" height="240" fill="#FAF6EF" stroke="#C9B898" stroke-width="1"/>
+            <line x1="180" y1="0" x2="180" y2="240" stroke="#C9B898" stroke-width=".5"/>
+            <g opacity=".5" stroke="#5C574E" stroke-width=".7">
+              <line x1="20" y1="40" x2="160" y2="40"/>
+              <line x1="20" y1="60" x2="160" y2="60"/>
+              <line x1="20" y1="80" x2="140" y2="80"/>
+              <line x1="20" y1="100" x2="160" y2="100"/>
+              <line x1="20" y1="120" x2="120" y2="120"/>
+              <line x1="200" y1="40" x2="340" y2="40"/>
+              <line x1="200" y1="60" x2="340" y2="60"/>
+              <line x1="200" y1="80" x2="320" y2="80"/>
+              <line x1="200" y1="100" x2="340" y2="100"/>
+            </g>
+          </g>
+          <g transform="translate(380,420) rotate(40)">
+            <rect width="120" height="6" rx="3" fill="#2D4A3E"/>
+            <polygon points="120,3 132,1 132,5" fill="#B8884A"/>
+          </g>
+        </svg>
+        <div class="stage-image-tag">Книги · тетрадь · своя практика</div>
+      </div>
+      <div class="stage-body">
+        <div class="stage-step"><span class="dot"></span>Ступень 01 · Для себя</div>
+        <h3>Фундамент<br><em>Ритмометода</em></h3>
+        <p class="stage-desc">Базовый курс для тех, кто хочет освоить метод для собственной жизни. Знакомство с авторскими инструментами и встраивание их в повседневную практику.</p>
+        <ul class="stage-list">
+          <li>Наблюдатель и его аспекты — основа всех практик</li>
+          <li>Разуплотнение помех и уплотнение нужных состояний</li>
+          <li>Работа с пенообразованием — острыми реакциями</li>
+          <li>Сбор событийных нитей — поиск повторяющихся узоров</li>
+          <li>Чтение знаков и трактовка их смыслов</li>
+          <li>Работа с ритмом дня</li>
+        </ul>
+        <div class="stage-metrics">
+          <div class="stage-metric"><div class="v" data-count="4">4</div><div class="l">месяца длительность</div></div>
+          <div class="stage-metric"><div class="v" data-count="4">4</div><div class="l">урока в модуле</div></div>
+          <div class="stage-metric"><div class="v">∞</div><div class="l">кураторская поддержка</div></div>
+        </div>
+        <div class="stage-buttons">
+          <a class="btn btn-primary" href="#stages">Записаться на первую ступень <span class="btn-arrow">→</span></a>
+          <a class="btn btn-ghost" href="#stages">Узнать программу подробнее</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-divider">
+      <span class="knot"></span>
+      <span>Можно остановиться на первой ступени или пройти весь путь</span>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage fr2 flip reveal">
+      <div class="stage-body">
+        <div class="stage-step"><span class="dot"></span>Ступень 02 · Для профессии</div>
+        <h3>Профессиональная<br><em>переподготовка</em></h3>
+        <p class="stage-desc">Для тех, кто уже знает метод и хочет работать ритмологом-консультантом профессионально. Многомесячное обучение с практикой консультаций под кураторством.</p>
+        <ul class="stage-list">
+          <li>Установление контакта с клиентом и психология консультирования</li>
+          <li>Профессиональная этика и границы работы ритмолога</li>
+          <li>Углублённая работа: Хладастейные поля, Пустоты, Завод времён</li>
+          <li>Подготовка к консультации и презентация себя клиенту</li>
+          <li>Метод зелёной ручки, отзеркаливание, виды слушания</li>
+          <li>Маркетинг и выход в широкий мир — как находить клиентов</li>
+        </ul>
+        <div class="stage-metrics">
+          <div class="stage-metric"><div class="v" data-count="1">1</div><div class="l">год обучения</div></div>
+          <div class="stage-metric"><div class="v">Гос.</div><div class="l">диплом по окончании</div></div>
+          <div class="stage-metric"><div class="v" data-count="2">2</div><div class="l">набора в год</div></div>
+        </div>
+        <div class="stage-buttons">
+          <a class="btn btn-primary" href="#stages" style="background:var(--clay)">Узнать о профессиональной программе <span class="btn-arrow">→</span></a>
+        </div>
+      </div>
+      <div class="stage-image">
+        <div class="bg b2"></div>
+        <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+          <ellipse cx="300" cy="500" rx="220" ry="20" fill="#000" opacity=".25"/>
+          <g transform="translate(150,260)">
+            <rect x="0" y="20" width="100" height="120" rx="8" fill="#5C574E"/>
+            <rect x="-8" y="10" width="116" height="40" rx="14" fill="#7A6F5C"/>
+            <rect x="0" y="140" width="14" height="80" fill="#3F3528"/>
+            <rect x="86" y="140" width="14" height="80" fill="#3F3528"/>
+          </g>
+          <g transform="translate(350,260)">
+            <rect x="0" y="20" width="100" height="120" rx="8" fill="#7A6F5C"/>
+            <rect x="-8" y="10" width="116" height="40" rx="14" fill="#8F8470"/>
+            <rect x="0" y="140" width="14" height="80" fill="#3F3528"/>
+            <rect x="86" y="140" width="14" height="80" fill="#3F3528"/>
+          </g>
+          <rect x="280" y="380" width="40" height="50" fill="#3F3528"/>
+          <ellipse cx="300" cy="378" rx="32" ry="6" fill="#A0533D"/>
+          <path d="M 600 0 L 600 240 L 460 0 Z" fill="rgba(255,228,170,0.18)"/>
+        </svg>
+        <div class="stage-image-tag dark">Консультация · клиент и&nbsp;ритмолог</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 5: WHO FITS ====== -->
+<section class="section" style="background:var(--paper-warm)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;012 — 014</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">05 — Кому подходит метод</div>
+      <h2 class="section-title">Узнайте<br><em>себя</em></h2>
+      <p class="section-intro">
+        По нашим данным, ученики курса — образованные взрослые, многие 45+, с управленческим, инженерным или экспертным опытом. Они приходят за глубокой работой, не за лайфхаками. Чаще всего — узнают себя в одном из трёх типов.
+      </p>
+    </div>
+
+    <div class="who-block reveal">
+      <div class="who-num">
+        <span class="ord">Тип первый</span>
+        Один.
+      </div>
+      <div>
+        <div class="who-quote">Я давно в методе и&nbsp;хочу&nbsp;глубже</div>
+        <p class="who-text">
+          Знаете ритмологию много лет, читали книги, ходили на радасты, практиковали для себя — но не проходили системного курса. Готовы перейти от любительской практики к структурному освоению.
+        </p>
+        <div class="who-stat"><strong>30%</strong>&nbsp;потока — со стажем 20+ лет в&nbsp;методе</div>
+      </div>
+    </div>
+
+    <div class="who-block reveal">
+      <div class="who-num">
+        <span class="ord">Тип второй</span>
+        Два.
+      </div>
+      <div>
+        <div class="who-quote">Хочу понять, как устроена моя жизнь</div>
+        <p class="who-text">
+          Чувствуете, что ходите по кругу: повторяете один и тот же сюжет в отношениях, работе, здоровье. Хотите увидеть свои нити и вырваться из них. Готовы к системной работе с собственным временем.
+        </p>
+        <div class="who-stat"><strong>51%</strong>&nbsp;учеников — со стажем 10+ лет в&nbsp;практиках</div>
+      </div>
+    </div>
+
+    <div class="who-block reveal">
+      <div class="who-num">
+        <span class="ord">Тип третий</span>
+        Три.
+      </div>
+      <div>
+        <div class="who-quote">Возвращаюсь к мечте юности</div>
+        <p class="who-text">
+          В молодости хотели заниматься психологией, философией, литературой — но жизнь увела в другую сторону. Сейчас, накопив опыт, готовы вернуться к глубокой работе с человеком — теперь уже на уровне ритмологии. Многие приходят на ФР2 именно так.
+        </p>
+        <div class="who-stat"><strong>45+</strong>&nbsp;средний возраст ученика второй ступени</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 6: VOICES ====== -->
+<section class="section" id="voices" style="background:var(--paper)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;015 — 017</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">06 — Что говорят выпускники</div>
+      <h2 class="section-title">Цифры<br>и&nbsp;<em>голоса</em></h2>
+      <p class="section-intro">
+        По результатам анализа отзывов 333 учеников первой ступени и более 450 учеников второй ступени. После первого модуля выпускники отмечают:
+      </p>
+    </div>
+
+    <div class="stats-grid reveal">
+      <div class="stat-cell">
+        <div class="corner">i.</div>
+        <div class="num" data-count="49" data-suffix="%">0%</div>
+        <div class="lbl">Регулярно используют разуплотнение и&nbsp;уплотнение в&nbsp;повседневной жизни</div>
+      </div>
+      <div class="stat-cell">
+        <div class="corner">ii.</div>
+        <div class="num" data-count="44" data-suffix="%">0%</div>
+        <div class="lbl">Освоили технику отзеркаливания, применяют её на работе и&nbsp;в&nbsp;семье</div>
+      </div>
+      <div class="stat-cell">
+        <div class="corner">iii.</div>
+        <div class="num" data-count="34" data-suffix="%">0%</div>
+        <div class="lbl">Работают с&nbsp;Пустотами как ежедневным инструментом</div>
+      </div>
+      <div class="stat-cell">
+        <div class="corner">iv.</div>
+        <div class="num" data-count="26" data-suffix="%">0%</div>
+        <div class="lbl">Научились отслеживать развёртку ритма дня в&nbsp;реальные события</div>
+      </div>
+    </div>
+
+    <div class="quotes-grid">
+      <div class="qcard reveal long">
+        <div class="qmark">«</div>
+        <p>Метод дал мне Фильтр Профессионального корня, и я смогла уйти с работы, которая разрушала мне здоровье. Сейчас я учусь работать с людьми по-другому — не помогая им, а вводя их во время.</p>
+        <div class="who">Выпускница ФР1 · 56 лет · <em>бывший главный бухгалтер</em></div>
+      </div>
+      <div class="qcard green reveal">
+        <div class="qmark">«</div>
+        <p>После окончания 10 класса я хотела пойти учиться на психолога, но тогда такой специальности не было. Спустя столько лет моё желание реализовывается.</p>
+        <div class="who">Выпускница ФР2 · 51 год · <em>возвращение к мечте</em></div>
+      </div>
+      <div class="qcard reveal">
+        <div class="qmark">«</div>
+        <p>Удивило, насколько близки у всех ожидания от курса. Я ощутила единение в потоке и мощный прилив сил.</p>
+        <div class="who">Выпускник ФР1 · 42 года · <em>IT-руководитель</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 7: AUTHOR ====== -->
+<section class="section" id="author" style="background:var(--paper-warm)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;018 — 020</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">07 — Автор</div>
+      <h2 class="section-title">Метод Евдокии<br>Дмитриевны <em>Лучезарновой</em></h2>
+      <p class="section-intro">
+        Метод 7Р0 разработан Евдокией Дмитриевной за более чем 30 лет исследований и преподавания. Опубликовано более 100 книг с авторскими инструментами. Создана школа кураторов, обучившая тысячи человек.
+      </p>
+    </div>
+
+    <div class="author-grid">
+      <div class="author-photo reveal">
+        <div class="grain"></div>
+        <svg viewBox="0 0 400 533" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">
+          <defs>
+            <radialGradient id="warmL" cx="0.3" cy="0.3" r="0.7">
+              <stop offset="0%" stop-color="rgba(255,228,170,0.18)"/>
+              <stop offset="100%" stop-color="rgba(255,228,170,0)"/>
+            </radialGradient>
+          </defs>
+          <rect x="40" y="100" width="320" height="14" fill="#3F3528"/>
+          <rect x="40" y="280" width="320" height="14" fill="#3F3528"/>
+          <g opacity=".95">
+            <rect x="60" y="40" width="28" height="60" fill="#A0533D"/>
+            <rect x="90" y="30" width="22" height="70" fill="#1F3329"/>
+            <rect x="114" y="50" width="32" height="50" fill="#B8884A"/>
+            <rect x="148" y="38" width="20" height="62" fill="#3F4F44"/>
+            <rect x="170" y="45" width="28" height="55" fill="#7A4A2E"/>
+            <rect x="200" y="32" width="24" height="68" fill="#2D4A3E"/>
+            <rect x="226" y="42" width="34" height="58" fill="#5C574E"/>
+            <rect x="262" y="48" width="22" height="52" fill="#A0533D"/>
+            <rect x="286" y="36" width="28" height="64" fill="#1F3329"/>
+            <rect x="316" y="44" width="24" height="56" fill="#B8884A"/>
+          </g>
+          <g opacity=".95">
+            <rect x="60" y="220" width="36" height="60" fill="#2D4A3E"/>
+            <rect x="98" y="210" width="24" height="70" fill="#A0533D"/>
+            <rect x="124" y="226" width="28" height="54" fill="#7A4A2E"/>
+            <rect x="154" y="218" width="22" height="62" fill="#1F3329"/>
+            <rect x="178" y="232" width="32" height="48" fill="#B8884A"/>
+            <rect x="212" y="220" width="26" height="60" fill="#5C574E"/>
+            <rect x="240" y="216" width="22" height="64" fill="#3F4F44"/>
+            <rect x="264" y="228" width="30" height="52" fill="#A0533D"/>
+            <rect x="296" y="222" width="20" height="58" fill="#2D4A3E"/>
+            <rect x="318" y="226" width="28" height="54" fill="#1F3329"/>
+          </g>
+          <g transform="translate(140,330)">
+            <ellipse cx="60" cy="170" rx="100" ry="14" fill="#000" opacity=".4"/>
+            <rect x="0" y="120" width="120" height="22" fill="#A0533D"/>
+            <rect x="6" y="100" width="108" height="22" fill="#2D4A3E"/>
+            <rect x="2" y="80" width="116" height="22" fill="#B8884A"/>
+            <ellipse cx="160" cy="142" rx="20" ry="5" fill="#1F3329"/>
+            <path d="M 142 142 L 144 174 Q 144 184 160 184 Q 176 184 176 174 L 178 142" fill="#3F4F44"/>
+          </g>
+          <rect x="0" y="0" width="400" height="533" fill="url(#warmL)"/>
+        </svg>
+        <div class="caption">Архив автора<em>Кабинет, книги, тёплый свет</em></div>
+      </div>
+
+      <div class="author-text reveal">
+        <h3>30 лет работы,<br><em>100+ книг,</em><br>тысячи учеников</h3>
+        <p>Евдокия Дмитриевна начала исследование того, что позже стало Ритмометодом, в начале 1990-х. К 2003 году вышла первая книга метода. К 2010-му — была создана школа кураторов. К 2024-му — опубликовано более ста книг с авторскими инструментами.</p>
+        <p>Метод не возник из абстрактной концепции. Он рос из реальной практики автора с тысячами клиентов, проверялся в долгих наблюдениях за повторяющимися узорами. Терминология — Хладастейные поля, Пустоты, Завод времён, событийные нити — отражает конкретные техники, а не философские идеи.</p>
+
+        <div class="author-feats">
+          <div class="author-feat">
+            <h4>Авторская терминология</h4>
+            <p>Каждое понятие отражает конкретный аспект работы со временем.</p>
+          </div>
+          <div class="author-feat">
+            <h4>Системность</h4>
+            <p>Техники складываются в единый алгоритм, а не в разрозненный набор.</p>
+          </div>
+          <div class="author-feat">
+            <h4>Практичность</h4>
+            <p>Каждый инструмент проверен в работе с реальными клиентами.</p>
+          </div>
+          <div class="author-feat">
+            <h4>Преемственность</h4>
+            <p>Метод передаётся через цепочку учителей, сохраняя точность.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="tline">
+        <div class="yr">1990</div>
+        <div class="desc">Начало исследований метода</div>
+      </div>
+      <div class="tline">
+        <div class="yr">2003</div>
+        <div class="desc">Выходит первая книга метода</div>
+      </div>
+      <div class="tline">
+        <div class="yr">2010</div>
+        <div class="desc">Открыта школа кураторов</div>
+      </div>
+      <div class="tline">
+        <div class="yr">2024</div>
+        <div class="desc">100+ опубликованных книг</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 8: FREE MATERIALS ====== -->
+<section class="section" id="free" style="background:var(--paper)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;021 — 022</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">08 — Бесплатные материалы</div>
+      <h2 class="section-title">Попробуйте<br>метод <em>до записи</em></h2>
+      <p class="section-intro">
+        Подготовили три бесплатных материала, чтобы вы могли почувствовать тон, язык и подход метода — и принять решение об обучении на основании реального опыта, а не описания.
+      </p>
+    </div>
+
+    <div class="free-grid">
+      <div class="fcard reveal">
+        <div class="fcard-vis"><div class="book-mock"></div></div>
+        <div class="fcard-tag">Книга · PDF</div>
+        <h4>«Память будущего»</h4>
+        <p>Главная книга для знакомства с методом. PDF доступен для скачивания. Прочитайте — и решите, ваше это или нет.</p>
+        <a href="#">Скачать PDF <span class="btn-arrow">→</span></a>
+      </div>
+
+      <div class="fcard reveal">
+        <div class="fcard-vis">
+          <div class="audio-mock">
+            <div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="wave" id="wave"></div>
+            <div class="dur">2 ч 14 мин</div>
+          </div>
+        </div>
+        <div class="fcard-tag">Аудиоэфир</div>
+        <h4>«Ритмологический рисунок»</h4>
+        <p>Запись установочного эфира с автором и кураторами. Два часа знакомства с центральной концепцией метода.</p>
+        <a href="#">Слушать эфир <span class="btn-arrow">→</span></a>
+      </div>
+
+      <div class="fcard reveal">
+        <div class="fcard-vis">
+          <div class="tg-mock">
+            <div class="head">
+              <div class="av">Р</div>
+              <div>
+                <div class="nm">Фундамент Ритмометода</div>
+                <div class="sub">2 480 подписчиков</div>
+              </div>
+            </div>
+            <div class="msg">Сегодня — короткое упражнение на <em>наблюдателя</em>: за 3 минуты заметить пять звуков вокруг…</div>
+            <div class="msg" style="background:var(--ochre-soft);font-size:9.5px">Анонс потока ФР1 — старт через 2 недели</div>
+          </div>
+        </div>
+        <div class="fcard-tag">Telegram-канал</div>
+        <h4>Регулярная практика</h4>
+        <p>Подписывайтесь — получайте практические упражнения, ответы на вопросы и анонсы новых потоков.</p>
+        <a href="#">Подписаться <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 9: PROCESS ====== -->
+<section class="section" style="background:var(--paper-warm)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;023 — 025</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">09 — Как устроено обучение</div>
+      <h2 class="section-title">Шаг за&nbsp;<em>шагом</em></h2>
+      <p class="section-intro">
+        Обучение построено так, чтобы вы продвигались в собственном темпе, но в общем потоке группы. У каждого этапа — точка входа и точка проверки усвоенного.
+      </p>
+    </div>
+
+    <div class="process reveal" id="process">
+      <div class="process-line-active" id="processLine"></div>
+
+      <div class="pstep">
+        <div class="pstep-num">01</div>
+        <div class="pstep-body">
+          <h4>Установочный эфир</h4>
+          <p>Знакомство с программой, кураторами и группой. Озвучивание целей и ожиданий — у каждого свои.</p>
+          <div class="pstep-meta">2 часа · в Zoom</div>
+        </div>
+      </div>
+
+      <div class="pstep">
+        <div class="pstep-num">02</div>
+        <div class="pstep-body">
+          <h4>Уроки 1–4 первого модуля</h4>
+          <p>Каждый урок — отдельная тема: наблюдатель, разуплотнение/уплотнение, пенообразование и нити, ритм дня. После каждого — практическое задание и обратная связь.</p>
+          <div class="pstep-meta">4 урока · 1 в месяц</div>
+        </div>
+      </div>
+
+      <div class="pstep">
+        <div class="pstep-num">03</div>
+        <div class="pstep-body">
+          <h4>Кураторская поддержка</h4>
+          <p>Регулярные созвоны с куратором в малых группах. Разбор ваших личных кейсов. Возможность задать вопрос экспертам курса напрямую.</p>
+          <div class="pstep-meta">Малые группы · 6–8 человек</div>
+        </div>
+      </div>
+
+      <div class="pstep">
+        <div class="pstep-num">04</div>
+        <div class="pstep-body">
+          <h4>Промежуточные проверки</h4>
+          <p>Анкеты, в которых вы фиксируете свои озарения и сложности. Помогает закрепить пройденное — и куратору увидеть, где нужна помощь.</p>
+          <div class="pstep-meta">По мере прохождения</div>
+        </div>
+      </div>
+
+      <div class="pstep">
+        <div class="pstep-num">05</div>
+        <div class="pstep-body">
+          <h4>Завершение модуля</h4>
+          <p>Подведение итогов, формулировка плана внедрения метода в жизнь, переход к следующему модулю или ко второй ступени — если вы решите.</p>
+          <div class="pstep-meta">Финальный созвон · план действий</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 10: FAQ ====== -->
+<section class="section" id="faq" style="background:var(--paper)">
+  <div class="section-num"><em>p.</em>&nbsp;&nbsp;026 — 028</div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">10 — Часто задаваемые вопросы</div>
+      <h2 class="section-title">Спокойные<br><em>ответы</em></h2>
+      <p class="section-intro">
+        Если у вас есть вопрос, на который здесь нет ответа — напишите куратору в Telegram. Это нормально — спрашивать до того, как решить.
+      </p>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq" open>
+        <summary>Это эзотерика или научная практика?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>Метод не позиционируется как эзотерический. Это <em>авторская практика работы со временем</em> с собственной терминологией и инструментами. Обучение даёт чёткие алгоритмы и техники, а не философские концепции. Каждый инструмент проверен в работе с реальными клиентами.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Можно ли пройти курс без предварительной подготовки?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>Да. Первая ступень рассчитана на людей без опыта в методе. Достаточно желания и готовности уделять обучению несколько часов в неделю. Все базовые понятия объясняются с нуля.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Сколько времени занимает обучение?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>Первая ступень — около 4 месяцев, по одному уроку в месяц с практикой между уроками. Вторая ступень — несколько модулей в течение года, с практикой консультаций под кураторством.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Что если я не смогу заниматься регулярно?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>Все материалы доступны в записи — вы можете возвращаться к ним. Кураторская поддержка не привязана к жёсткому графику: куратор адаптируется к вашему темпу. Главное — двигаться, пусть и медленно.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Как принимают решение о допуске на вторую ступень?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>По итогам первой ступени и собеседования с куратором. Не все ученики первой ступени продолжают — это нормально. Вторая ступень для тех, кто хочет работать с клиентами профессионально и готов к долгой практике.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Где работают выпускники?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>В частной практике — как ритмологи-консультанты. Также в смежных сферах: коучинг, психологическое сопровождение, обучение взрослых. Многие совмещают практику ритмолога с прежней профессией.</p></div>
+      </details>
+      <details class="faq">
+        <summary>Сколько стоит обучение?<span class="plus"></span></summary>
+        <div class="faq-answer"><p>Стоимость указана на странице с программами. Возможна оплата частями. Если оплата для вас сейчас сложна — напишите куратору, мы обсудим варианты, включая рассрочку и стипендиальные места для одаренных учеников.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 11: FINAL CTA ====== -->
+<section class="final">
+  <div class="final-num"><em>p.</em>&nbsp;&nbsp;029</div>
+  <div class="container">
+    <h2>Если вы дочитали<br>до этого места —<br>возможно, метод<br><em>уже выбрал вас</em></h2>
+    <p class="lead">Запишитесь на ближайший поток первой ступени или свяжитесь с куратором, чтобы обсудить, какой вариант подходит именно вам.</p>
+    <div class="final-buttons">
+      <a class="btn btn-primary" href="#">Записаться на первую ступень <span class="btn-arrow">→</span></a>
+      <a class="btn btn-secondary" href="#">Связаться с куратором</a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Ритмо<em>метод</em></div>
+        <p class="footer-tag">Школа авторского метода Евдокии Дмитриевны Лучезарновой. Две ступени обучения для тех, кто хочет жить в ритме своего времени.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Школа</h5>
+        <ul>
+          <li><a href="#method">О методе</a></li>
+          <li><a href="#stages">Ступени обучения</a></li>
+          <li><a href="#author">Автор</a></li>
+          <li><a href="#voices">Выпускники</a></li>
+          <li><a href="#">Расписание потоков</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Программы</h5>
+        <ul>
+          <li><a href="#">ФР1 — первая ступень</a></li>
+          <li><a href="#">ФР2 — переподготовка</a></li>
+          <li><a href="#">Корпоративные программы</a></li>
+          <li><a href="#">Книги Е. Д. Лучезарновой</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Контакты</h5>
+        <ul>
+          <li><a href="#">Telegram-поддержка</a></li>
+          <li><a href="#">Email</a></li>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Публичная оферта</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 1998–2026 Школа Ритмометода 7Р0. Авторская методика Е. Д. Лучезарновой</span>
+      <span><em>«Время — это ритм, а не часы»</em></span>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
